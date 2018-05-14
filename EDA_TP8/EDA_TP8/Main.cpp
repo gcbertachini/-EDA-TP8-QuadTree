@@ -1,8 +1,12 @@
 #include <vector> 
 #include <iostream>
 
+#include "Allegro.h"
+
+
 void main(int argc, char** argv)
 {
+	Allegro allegro;
 
 	/*
 	Compresor compresor;

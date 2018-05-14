@@ -120,6 +120,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Allegro.h" />
     <ClInclude Include="Compresor.h" />
     <ClInclude Include="Draw.h" />
     <ClInclude Include="Image.h" />
@@ -127,7 +128,9 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Allegro.cpp" />
     <ClCompile Include="Compresor.cpp" />
+    <ClCompile Include="Draw.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="parseDirectory.cpp" />
   </ItemGroup>
