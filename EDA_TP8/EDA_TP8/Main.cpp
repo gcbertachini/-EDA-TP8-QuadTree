@@ -2,16 +2,16 @@
 #include <iostream>
 #include<cstdio>
 
-//#include "Allegro.h"
+#include "Allegro.h"
 #include "calbacks.h"
 #include"parseDirectory.h"
 #include"Parser.h"
-//#include "Compresor.h"
+#include "Compresor.h"
 
 void main(int argc, char** argv)
 {
-	vector<image>compatibleFiles;
-	//Allegro allegro;
+	vector<image>compatiblefiles;
+	Allegro allegro;
 	Parser parsecmdln;
 	bool run = false;
 	parsecmdln.Read(argc, argv);	//parsea los argumentos recibidos por linea de comando
@@ -20,29 +20,29 @@ void main(int argc, char** argv)
 		parseDirectory parserDir(parsecmdln.path);
 		if (parsecmdln.modo == COMPRESION)
 			parserDir.setCallback(isPNG);
-		else if (parsecmdln.modo == DESCOMPRESION)
+		else //if (parsecmdln.modo == DESCOMPRESION)
 			parserDir.setCallback(isCompressed);
 
 		parserDir.parseDir();
 		if (!parserDir.isVectorempty())	//Chequeo que haya algo en el vector del parser
 		{
-			compatibleFiles = parserDir.getVector();
+			compatiblefiles = parserDir.getVector();
 			run = true;
 		}
 		else
 		{
 			cout << "El vector de archivos compatibles es vacio" << endl;
 		}
-		if (run)
+		/*if (run)
 		{
-			//Allegro allegro;
-			//Compresor compresor;
-			/* SELECIONAR ARCHIVOS AQUI*/
-			/*if (parsecmdln.modo == COMPRESION)
+			Allegro allegro;
+			Compresor compresor;
+			/* SELECIONAR ARCHIVOS AQUI*
+			if (parsecmdln.modo == COMPRESION)
 				compresor.compress();
 			else if (parsecmdln.modo == DESCOMPRESION)
-				compresor.decompress();*/
-		}
+				compresor.decompress();
+		}*/
 
 
 		

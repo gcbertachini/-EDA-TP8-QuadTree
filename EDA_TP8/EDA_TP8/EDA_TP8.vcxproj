@@ -124,6 +124,7 @@
     <ClInclude Include="calbacks.h" />
     <ClInclude Include="Compresor.h" />
     <ClInclude Include="Draw.h" />
+    <ClInclude Include="eventHandler.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="parseDirectory.h" />
     <ClInclude Include="Parser.h" />
@@ -134,6 +135,7 @@
     <ClCompile Include="calbacks.cpp" />
     <ClCompile Include="Compresor.cpp" />
     <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="eventHandler.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="parseDirectory.cpp" />
