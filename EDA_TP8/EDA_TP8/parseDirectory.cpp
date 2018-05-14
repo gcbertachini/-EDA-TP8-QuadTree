@@ -7,7 +7,7 @@ parseDirectory::parseDirectory()
 	cout << "Parse Directory construction error" << endl;
 }
 
-parseDirectory::parseDirectory(string comand_path, bool(*callback_fun)(string exten)): recieved_path(comand_path)
+parseDirectory::parseDirectory(string comand_path, bool(*callback_fun)(string exten) = NULL): recieved_path(comand_path)
 {
 	this->callback = callback_fun;
 	count_correct = 0;
@@ -15,22 +15,32 @@ parseDirectory::parseDirectory(string comand_path, bool(*callback_fun)(string ex
 	vector_empty = true;
 }
 
+parseDirectory::parseDirectory(string comand_path) : recieved_path(comand_path)
+{
+	this->callback = NULL;
+	count_correct = 0;
+	count_otherfile = 0;
+	vector_empty = true;
+}
+
+
 bool parseDirectory::parseDir()
 {
 	try
 	{
-		if (exists(recived_path))
+		if (exists(recieved_path))
 		{
 			
-			if (is_directory(recived_path))
+			if (is_directory(recieved_path))
 			{
-				cout << p << " is a directory containing:\n";
+				cout << recieved_path << " is a directory containing:\n";
 
 				for (directory_entry& x : directory_iterator(recieved_path))	//Chequeo todos lo archivos del directorio
 				{
-					if (callback((x.path()).extension()))	//FALTA VER SI UN ARCHIVO ES UN DIRECTORIO
+					if (callback((((x.path()).extension())).string()))	//FALTA VER SI UN ARCHIVO ES UN DIRECTORIO
 					{
-						correctFiles.push_back(image((x.path()).string()));
+						cout << "Archivo compatible encontrado = "<< x.path().filename()<<endl;
+						correctFiles.push_back( image((x.path()).string(), (x.path().filename()).string()));
 						vector_empty = false;
 						count_correct++;
 					}
@@ -62,6 +72,19 @@ bool parseDirectory::parseDir()
 		cout << ex.what() << '\n';
 	}
 
+}
+
+bool parseDirectory::setCallback(bool(*callback)(string exten))
+{
+	if (!callback)
+	{
+		cout << "NO se puede sobreescribir el puntero" << endl;
+		return false;
+	}
+	else
+	{
+		this->callback = callback;
+	}
 }
 
 vector<image> parseDirectory::getVector()

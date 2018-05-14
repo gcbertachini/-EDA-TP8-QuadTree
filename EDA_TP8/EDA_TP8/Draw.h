@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include <vector>
 
 #include "Image.h"
@@ -20,3 +20,4 @@ private:
 	int page = 0;
 };
 
+*/

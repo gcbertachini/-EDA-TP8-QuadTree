@@ -1,6 +1,6 @@
 #include "Draw.h"
 
-
+/*
 
 Draw::Draw()
 {
@@ -26,3 +26,4 @@ void Allegro::prevPage()
 {
 	page--;
 }
+*/

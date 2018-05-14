@@ -1,7 +1,7 @@
 #include "Compresor.h"
 
 
-
+/*
 Compresor::Compresor()
 {
 }
@@ -77,3 +77,4 @@ char* Compresor::promedio(unsigned int w, unsigned int h, char ** out, unsigned 
 	return colores_prom;
 }
 
+*/
