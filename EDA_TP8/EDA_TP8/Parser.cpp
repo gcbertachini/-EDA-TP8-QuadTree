@@ -64,7 +64,7 @@ void Parser::Do(char * key, char * value)
 
 	if (key == nullptr)
 	{
-		error_fran = true;
+		error_do = true;
 		cout << "Error, el programa no recibe parametros, solo opciones" << endl;
 
 	}
@@ -94,7 +94,7 @@ void Parser::Do(char * key, char * value)
 					else
 					{
 						cout << "ERROR VALOR MODO, introduzca Compresion (0) Descopresion(1) " << endl;
-						error_fran = true;
+						error_do = true;
 					}
 					break;
 				case 2:
@@ -112,5 +112,5 @@ void Parser::Do(char * key, char * value)
 
 bool Parser::getError()
 {
-	return this->error_fran;
+	return this->error_do;
 }
