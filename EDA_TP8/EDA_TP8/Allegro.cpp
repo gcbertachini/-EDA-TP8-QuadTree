@@ -76,12 +76,6 @@ bool Allegro::load_music(char * music_file) //Devuelve 1 si todo salio bien
 }
 
 
-void Allegro::updateDisplay()
-{
-	al_flip_display();
-}
-
-
 ALLEGRO_EVENT_QUEUE * Allegro::getEventQueue()
 {
 	return ev_queue;
