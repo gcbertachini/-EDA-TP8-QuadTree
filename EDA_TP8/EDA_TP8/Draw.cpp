@@ -11,18 +11,33 @@ Draw::~Draw()
 {
 }
 
-void Allegro::drawPage(vector<Image>& images)
+
+void Draw::updateDisplay()
 {
-	for (int i = (page * PAGE_SIZE); i < images.size(); i++)
-		al_draw_scaled_bitmap(images[i].getBitmap(), , , , , , , , , );
+	al_flip_display();
 }
 
-void Allegro::nextPage()
+
+void Draw::drawPage(vector<image>& images)
+{
+	for (int i = (page * PAGE_SIZE); i < images.size(); i++)
+	{
+		al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
+			25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 300, 175, 0);
+		if (images.getSelected())
+		{
+			al_draw_rectangle(25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 25*(i+1)+(i*300)+((i+1)*300), (75/4)*(i+1)+(i*175)+((i+1)*175),
+				al_map_rgb(0, 255, 0), 3);
+		}
+	}
+}
+
+void Draw::nextPage()
 {
 	page++;
 }
 
-void Allegro::prevPage()
+void Draw::prevPage()
 {
 	page--;
 }
