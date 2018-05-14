@@ -7,8 +7,10 @@
 
 using namespace std;
 
-class Image {
-
+class image {
+	image();
+	image(string path, string name);
+	void createBitmap(int modo);	//Depende de allegro
 
 private:
 	string path;

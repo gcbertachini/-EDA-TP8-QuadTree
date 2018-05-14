@@ -6,10 +6,11 @@ void main(int argc, char** argv)
 
 	/*
 	Compresor compresor;
-	vector <string> png_vector;
+	vector <string> file_vector;
 	vector <string> selected_pngs_vector;
 
 	parserCmdLine(***);
+	parse directorio(file vector, path, modo, puntero a funcion callback);
 
 	if(UserInit==OK)  //No inicializar allgero si user mando fruta
 	AllegroInit;
