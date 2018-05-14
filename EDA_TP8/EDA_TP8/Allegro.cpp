@@ -1,6 +1,6 @@
 #include "Allegro.h"
 #include <iostream>
-/*
+
 using namespace std;
 Allegro::Allegro()
 {
@@ -80,6 +80,3 @@ ALLEGRO_EVENT_QUEUE * Allegro::getEventQueue()
 {
 	return ev_queue;
 }
-
-
-*/

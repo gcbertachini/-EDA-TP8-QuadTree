@@ -1,5 +1,5 @@
 #pragma once
-/*
+
 #include <vector>
 #include <allegro5/allegro_primitives.h> 
 
@@ -23,5 +23,3 @@ private:
 	int page = 0;
 	int vectSize;
 };
-
-*/

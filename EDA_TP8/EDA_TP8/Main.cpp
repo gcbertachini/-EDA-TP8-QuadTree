@@ -2,16 +2,16 @@
 #include <iostream>
 #include<cstdio>
 
-//#include "Allegro.h"
+#include "Allegro.h"
 #include "calbacks.h"
 #include"parseDirectory.h"
 #include"Parser.h"
-//#include "Compresor.h"
+#include "Compresor.h"
 
 void main(int argc, char** argv)
 {
 	vector<image>compatiblefiles;
-	//Allegro allegro;
+	Allegro allegro;
 	Parser parsecmdln;
 	bool run = false;
 	parsecmdln.Read(argc, argv);	//parsea los argumentos recibidos por linea de comando

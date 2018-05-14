@@ -1,7 +1,5 @@
 #include "Draw.h"
 
-/*
-
 
 Draw::Draw(vector<image>& images)
 {
