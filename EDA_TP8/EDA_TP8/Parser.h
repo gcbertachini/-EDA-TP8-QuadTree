@@ -21,7 +21,7 @@ typedef struct
 class Parser
 {
 public:
-	Parser() { parseData.key[0] = (char*) "PATH"; parseData.key[1] = (char*) "MODO";  parseData.key[2] = (char*) "THRESHOLD"; };
+	Parser() { parseData.key[0] = (char*) "PATH"; parseData.key[1] = (char*) "MODO";  parseData.key[2] = (char*) "THRESHOLD"; error_fran = false; };
 	~Parser();
 	int Read(int argc, char *argv[]);
 
@@ -33,6 +33,6 @@ public:
 private:
 	void Do(char *key, char *value);
 	parseData parseData;
-	bool error;
+	bool error_fran;
 };
 

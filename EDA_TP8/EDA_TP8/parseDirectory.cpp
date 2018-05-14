@@ -4,26 +4,25 @@
 
 parseDirectory::parseDirectory()
 {
-	cout << "Parse Directory construction error" << endl;
+	cout << "Parse Directory construction error, es necesario enviad un path" << endl;
 }
 
-parseDirectory::parseDirectory(string comand_path, bool(*callback_fun)(string exten) = NULL): recieved_path(comand_path)
-{
-	this->callback = callback_fun;
-	count_correct = 0;
-	count_otherfile = 0;
-	vector_empty = true;
-}
 
 parseDirectory::parseDirectory(string comand_path) : recieved_path(comand_path)
 {
-	this->callback = NULL;
+	this->callback = NULL;	//Inicializo el puntero en null
 	count_correct = 0;
 	count_otherfile = 0;
-	vector_empty = true;
+	vector_empty = true;		// En un principio el vector no tiene nada
 }
 
-
+/*PARSER*/
+/*
+	Utilizo el path del constructor, reviso si existe o si es un directorio. Si es un directorio itero sus contenidos.
+	Cuando el iterador encuentra un archivo compatible(dado por la extension enviada al callback) lo guarda en el vector como
+	una clase imagen.
+	Si no existe el directorio se imprimira un mensaje avisando el error
+*/
 bool parseDirectory::parseDir()
 {
 	try
@@ -33,35 +32,41 @@ bool parseDirectory::parseDir()
 			
 			if (is_directory(recieved_path))
 			{
-				cout << recieved_path << " is a directory containing:\n";
-
-				for (directory_entry& x : directory_iterator(recieved_path))	//Chequeo todos lo archivos del directorio
+				cout << recieved_path << " es un directorio"<<endl;
+				if (boost::filesystem::is_empty(recieved_path))
 				{
-					if (callback((((x.path()).extension())).string()))	//FALTA VER SI UN ARCHIVO ES UN DIRECTORIO
+					cout << "El directorio introducido es vacio" << endl;
+				}
+				else
+				{
+					for (directory_entry& x : directory_iterator(recieved_path))	//Chequeo todos lo archivos del directorio
 					{
-						cout << "Archivo compatible encontrado = "<< x.path().filename()<<endl;
-						correctFiles.push_back( image((x.path()).string(), (x.path().filename()).string()));
-						vector_empty = false;
-						count_correct++;
-					}
-					else
-					{
-						count_otherfile++;
+						if (callback((((x.path()).extension())).string()))	//FALTA VER SI UN ARCHIVO ES UN DIRECTORIO
+						{
+							cout << "Archivo compatible encontrado = " << x.path().filename() << endl;
+							correctFiles.push_back(image((x.path()).string(), (x.path().filename()).string()));
+							vector_empty = false;
+							count_correct++;
+						}
+						else
+						{
+							count_otherfile++;
+						}
 					}
 				}
-				cout << "Se ha analizado el directorio. Se han encontrado " << count_correct << " archivos compatibles y " << count_otherfile << " directorios o archivos incompatibles" << endl;
+				cout << "Se ha analizado el directorio."<< recieved_path <<"Se han encontrado " << count_correct << " archivos compatibles y " << count_otherfile << " directorios o archivos incompatibles" << endl;
 				return true;
 			}
 			else
 			{
-				cout << "El camino que ha introducido existe pero no es un directorio" << endl;	//MOSTRAR PATH
+				cout << "El camino"<< recieved_path <<"existe pero no es un directorio" << endl;	//MOSTRAR PATH
 				return false;
 			}
 
 		}
 		else
 		{
-			cout << "El camino que ha introducido no existe en el equipo" << endl;	//MOSTRAR PATH
+			cout << "El camino"<< recieved_path <<"no existe en el equipo" << endl;	//MOSTRAR PATH
 			return false;
 		}
 		
@@ -73,7 +78,10 @@ bool parseDirectory::parseDir()
 	}
 
 }
-
+/* SET CALLBACK*/
+/*
+	Seteo el calback dependiendo de si comprimo o descomprimo
+*/
 bool parseDirectory::setCallback(bool(*callback)(string exten))
 {
 	if (!callback)
@@ -87,6 +95,10 @@ bool parseDirectory::setCallback(bool(*callback)(string exten))
 	}
 }
 
+/*GET VECTOR*/
+/*
+	Devuelve el vector con los archivos compatibles
+*/
 vector<image> parseDirectory::getVector()
 {
 	return correctFiles;

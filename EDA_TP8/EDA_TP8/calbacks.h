@@ -5,6 +5,7 @@
 
 
 using namespace::std;
+/*AMBAS FUNCIONES CHEQUEAN SI LA EXTENSION ENVIADA ES COMPATIBLE*/
 
 bool isPNG(string extension);
 

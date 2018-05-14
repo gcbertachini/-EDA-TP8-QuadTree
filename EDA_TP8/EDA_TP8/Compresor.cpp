@@ -1,7 +1,7 @@
 #include "Compresor.h"
-
-
 /*
+
+
 Compresor::Compresor()
 {
 }

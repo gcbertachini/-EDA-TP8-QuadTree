@@ -64,7 +64,7 @@ void Parser::Do(char * key, char * value)
 
 	if (key == nullptr)
 	{
-		error = true;
+		error_fran = true;
 		cout << "Error, el programa no recibe parametros, solo opciones" << endl;
 
 	}
@@ -84,7 +84,7 @@ void Parser::Do(char * key, char * value)
 				switch (i)
 				{
 				case 0:
-					path = value;
+					path = value;	//El chequeo de error del path se hace luego
 					break;
 				case 1:
 					if (atoi(value) == COMPRESION)
@@ -94,7 +94,7 @@ void Parser::Do(char * key, char * value)
 					else
 					{
 						cout << "ERROR VALOR MODO, introduzca Compresion (0) Descopresion(1) " << endl;
-						error = true;
+						error_fran = true;
 					}
 					break;
 				case 2:
@@ -112,5 +112,5 @@ void Parser::Do(char * key, char * value)
 
 bool Parser::getError()
 {
-	return this->error;
+	return this->error_fran;
 }

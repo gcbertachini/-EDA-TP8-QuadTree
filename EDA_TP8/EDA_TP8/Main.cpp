@@ -10,7 +10,7 @@
 
 void main(int argc, char** argv)
 {
-	vector<image>compatiblefiles;
+	vector<image>compatibleFiles;
 	//Allegro allegro;
 	Parser parsecmdln;
 	bool run = false;
@@ -20,29 +20,29 @@ void main(int argc, char** argv)
 		parseDirectory parserDir(parsecmdln.path);
 		if (parsecmdln.modo == COMPRESION)
 			parserDir.setCallback(isPNG);
-		else //if (parsecmdln.modo == DESCOMPRESION)
+		else if (parsecmdln.modo == DESCOMPRESION)
 			parserDir.setCallback(isCompressed);
 
 		parserDir.parseDir();
 		if (!parserDir.isVectorempty())	//Chequeo que haya algo en el vector del parser
 		{
-			compatiblefiles = parserDir.getVector();
+			compatibleFiles = parserDir.getVector();
 			run = true;
 		}
 		else
 		{
 			cout << "El vector de archivos compatibles es vacio" << endl;
 		}
-		/*if (run)
+		if (run)
 		{
-			Allegro allegro;
-			Compresor compresor;
-			/* SELECIONAR ARCHIVOS AQUI*
-			if (parsecmdln.modo == COMPRESION)
+			//Allegro allegro;
+			//Compresor compresor;
+			/* SELECIONAR ARCHIVOS AQUI*/
+			/*if (parsecmdln.modo == COMPRESION)
 				compresor.compress();
 			else if (parsecmdln.modo == DESCOMPRESION)
-				compresor.decompress();
-		}*/
+				compresor.decompress();*/
+		}
 
 
 		

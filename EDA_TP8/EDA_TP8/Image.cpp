@@ -1,9 +1,9 @@
 #include "Image.h"
 
-/*image::image()
+image::image()
 {
 
-}*/
+}
 
 image::image(string path, string name)
 {
