@@ -8,10 +8,13 @@
 using namespace std;
 
 class image {
+public:
 	image();
 	image(string path, string name);
+	~image();
 	void createBitmap(int modo);	//Depende de allegro
-
+	bool getSelected();
+	void toggleSelected();
 private:
 	string path;
 	string name;
