@@ -2,8 +2,9 @@
 
 
 
-Draw::Draw()
+Draw::Draw(vector<image>& images)
 {
+	vectSize = images.size();
 }
 
 
@@ -34,10 +35,23 @@ void Draw::drawPage(vector<image>& images)
 
 void Draw::nextPage()
 {
-	page++;
+	if(page < vectSize)
+		page++;
 }
 
 void Draw::prevPage()
 {
-	page--;
+	if(page > vectSize)
+		page--;
+}
+
+int Draw::getPage()
+{
+	return page;
+}
+
+
+void Draw::toggle(vector<image>& images, int n)
+{
+	images[n+(PAGE_SIZE*page)].toggleSelection();
 }

@@ -10,14 +10,17 @@
 class Draw
 {
 public:
-	Draw();
+	Draw(vector<image>& images);
 	~Draw();
 	void updateDisplay();
-	void drawPage(vector<Image>& images);
+	void drawPage(vector<image>& images);
 	void nextPage();
 	void prevPage();
+	int getPage();
+	void toggle(vector<image>& images, int n);
 
 private:
 	int page = 0;
+	int vectSize;
 };
 
