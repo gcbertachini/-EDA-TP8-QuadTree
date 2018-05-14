@@ -20,6 +20,8 @@ void dispatchEvent(Evnt ev, Draw& info)
 	case POS9: info.toggle(compatibleFiles, 8); break;
 	case PAGEUP: info.nextPage(); break;
 	case PAGEDOWN: info.prevPage(); break;
+	case ALL: info.toggleAll(compatibleFiles); break;
+	case NONE: info.toggleNone(compatibleFiles); break;
 	case ENTER:
 	}
 

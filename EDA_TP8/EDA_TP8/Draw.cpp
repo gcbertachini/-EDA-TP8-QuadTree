@@ -20,7 +20,7 @@ void Draw::updateDisplay()
 
 void Draw::drawPage(vector<image>& images)
 {
-	for (int i = (page * PAGE_SIZE); i < images.size(); i++)
+	for (int i = (page * PAGE_SIZE); (i < images.size()) && (i < ((page+1)*PAGE_SIZE)); i++)
 	{
 		al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
 			25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 300, 175, 0);
@@ -53,4 +53,28 @@ int Draw::getPage()
 void Draw::toggle(vector<image>& images, int n)
 {
 	images[n+(PAGE_SIZE*page)].toggleSelection();
+}
+
+void Draw::toggleAll(vector<image>& images)
+{
+	for (int i = (page * PAGE_SIZE); (i < images.size()) && (i < ((page + 1)*PAGE_SIZE)); i++)
+	{
+		if (!(images[i].getSelected()))
+		{
+			images[i].toggleSelected();
+		}
+	}
+}
+
+
+
+void Draw::toggleNone(vector<image>& images)
+{
+	for (int i = (page * PAGE_SIZE); (i < images.size()) && (i < ((page + 1)*PAGE_SIZE)); i++)
+	{
+		if (images[i].getSelected())
+		{
+			images[i].toggleSelected();
+		}
+	}
 }
