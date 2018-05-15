@@ -254,17 +254,43 @@ void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * 
 	}
 	else if (c == 'N') {
 		current_pos++;
-		get_colours(image,current_pos, init_x, init_y);
+		get_colours(image, current_pos, w, h, init_x, init_y);
 	}
 	else if (c == ' ') {
 		current_pos++;
 		rec_decomp(image, w, h, current_pos, init_x, init_y);
 	}
 }
-void Compresor::get_colours(char ** image, char * current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
-	for(int i = init_x; i  < ;i++)
-		for (int j = init_y; j < init_y + ; j = j + 4)
-		{
+void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
 
+	char RGB_T[4];
+	int j = 0;
+	bool received = false;
+	unsigned int colour = 0;
+
+	for (int i = 0; i < 14; i++) {
+		char c = current_pos[i];
+		if ((c <= '9') && (c > '0')) {
+			received = true;
+			colour = colour * 10 + (unsigned int)c;
+		}
+		else if (c == ' ') {
+			if (received) {
+				RGB_T[j] = colour;
+				j++;
+			}
+		}
+		else {
+			RGB_T[3] = 0xff;
+			break;
+		}
+	}
+	for(int i = init_x; i  <  (init_x + h * 4); i++)
+		for (int j = init_y; j < (init_y + w * 4); j = j + 4)
+		{
+			image[i][j] = RGB_T[0];
+			image[i][j + 1] = RGB_T[1];
+			image[i][j + 2] = RGB_T[2];
+			image[i][j + 3] = RGB_T[3];
 		}
 }
