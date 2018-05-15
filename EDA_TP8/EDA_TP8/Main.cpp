@@ -48,6 +48,7 @@ void main(int argc, char** argv)
 
  			Draw dibu(compatiblefiles, parsecmdln.modo, allegro);	//creo objeto que dibuja en pantalla
 			Evnt evento = NOEVENT;
+
 			dibu.drawPage(compatiblefiles);
 			dibu.updateDisplay();
 			/* SELECCIONO IMAGENES EN ALLEGRO*/
@@ -64,7 +65,7 @@ void main(int argc, char** argv)
 			}
 			if (!dibu.getquit())	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
 			{
-				dibu.setexit(false);//cambio el estado de esa variable
+				//dibu.setexit(false);//cambio el estado de esa variable
 				/* COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
 					/*if (parsecmdln.modo == COMPRESION)
 						compresor.compress();
@@ -73,10 +74,10 @@ void main(int argc, char** argv)
 						*/
 						//CUANDO TERMINA ALLEGRO TIENE QUE DECIR QUE TERMINO
 
-						//dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado
+				dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado
 
 						/*ESTA SECCION TE DEJA ALLEGRO CORRIENDO HASTA QUE APRETES QUIT*/
-				dibu.drawPage(compatiblefiles);
+				//dibu.drawPage(compatiblefiles);
 				dibu.updateDisplay();
 				while (!dibu.getexit())
 				{
