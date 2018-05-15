@@ -24,7 +24,7 @@ private:
 	static void promedio(char colores_prom[4], unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
 	uint32_t * give_me_dimensions(uint  w, uint  h, unsigned char ** out, const char *  filename);
 
-
+	void matrix_to_array(char array[], unsigned int array_length, char **matrix, unsigned int w, unsigned int h);
 	void array_to_matrix(char array[], unsigned int array_length, char **matrix, unsigned int w);
 };
 

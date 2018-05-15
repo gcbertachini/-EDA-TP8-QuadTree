@@ -18,14 +18,14 @@ void Compresor::change_target_file(FILE * file_stream) {
 }
 void Compresor::compress(unsigned int w, unsigned int h, char out_lineal[], unsigned int threshold) {
 	
-	char** matrix = new char*[h];
-	for (int i = 0; i < h; ++i)
-		matrix[i] = new char[w];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
+	char** matrix = new char*[h * 4];
+	for (int i = 0; i < h * 4; ++i)
+		matrix[i] = new char[w * 4];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
 
 	array_to_matrix(out_lineal, h*w,matrix, w);			//lleno la matriz acorde a lo que recibi.
 	rec_comp(w, h, matrix, 0, 0, threshold);			//llamo a la funcion recursiva qeu realizara la compresion
 
-	for (int i = 0; i < h; ++i)
+	for (int i = 0; i < h * 4; ++i)
 		delete[] matrix[i];
 	delete[] matrix;						//borro la matriz para que no haya memory leaks
 }
@@ -39,10 +39,22 @@ void Compresor::decompress(unsigned int w, unsigned int h, char * path) {
 	}
 	inFile.close();
 
-	char * array = new char[h*w*16];
-	TreeNode * tree = new TreeNode();
-	rec_decomp(array, w, h, (char *) f_input.c_str(), tree);
 
+	char** matrix = new char*[h*4];
+	for (int i = 0; i < h*4; ++i)
+		matrix[i] = new char[w*4];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
+
+	rec_decomp(matrix, w, h, (char * )f_input.c_str, 0, 0);
+
+	char * array = new char[h*w * 16];
+	matrix_to_array(array, h*w * 16, matrix, w, h);
+
+	//FALTA EL LLAMADO A ENCODE!!!
+
+	for (int i = 0; i < h*4; ++i)
+		delete[] matrix[i];
+	delete[] matrix;						//borro la matriz para que no haya memory leaks
+	delete[] array;
 }
 
 void Compresor::rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold) {
@@ -213,22 +225,14 @@ void Compresor::array_to_matrix(char array[], unsigned int array_length, char **
 }
 
 
-uint32_t * Compresor::give_me_dimensions(uint  w, uint  h, unsigned char ** out, const char *  filename) {
-
-	uint32_t * desired_dimesion;
-	uint32_t * my_dimension = new uint32_t[2]; //Va a haber que hacer free al haber leido las dimensiones
-	lodepng_decode32_file(out, &w, &h, filename);
-
-	desired_dimesion = (uint32_t *)(out + 16);
-	my_dimension[0] = (*desired_dimesion); //se carga el width
-	desired_dimesion = (uint32_t *)(out + 20);
-	my_dimension[1] = (*desired_dimesion); //se carga el height
-
-
-		return my_dimension;//[0]=w,[1]=h
+void Compresor::matrix_to_array(char array[], unsigned int array_length, char **matrix, unsigned int w, unsigned int h) {
+	for (int i = 0; i < h; i++) {
+		for (int j = 0; j < w*4; j++)
+		{
+			array[i + j* w*4]= matrix[i][h];
+		}
+	}
 }
-
-
 
 void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y) {
 
@@ -293,4 +297,20 @@ void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, uns
 			image[i][j + 2] = RGB_T[2];
 			image[i][j + 3] = RGB_T[3];
 		}
+}
+
+
+uint32_t * Compresor::give_me_dimensions(uint  w, uint  h, unsigned char ** out, const char *  filename) {
+
+	uint32_t * desired_dimesion;
+	uint32_t * my_dimension = new uint32_t[2]; //Va a haber que hacer free al haber leido las dimensiones
+	lodepng_decode32_file(out, &w, &h, filename);
+
+	desired_dimesion = (uint32_t *)(out + 16);
+	my_dimension[0] = (*desired_dimesion); //se carga el width
+	desired_dimesion = (uint32_t *)(out + 20);
+	my_dimension[1] = (*desired_dimesion); //se carga el height
+
+
+	return my_dimension;//[0]=w,[1]=h
 }
