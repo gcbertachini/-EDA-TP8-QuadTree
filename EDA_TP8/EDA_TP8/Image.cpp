@@ -25,8 +25,8 @@ void image::createBitmap(modo_t modo)
 	
 	if (modo == COMPRESION)	//tengo o no que mostrar las imagenes
 	{
-		const char * hola = path.c_str();
-		my_image = al_load_bitmap(hola);	//cargo bitmap de imagene
+		al_change_directory(this->path.c_str());
+		my_image = al_load_bitmap(this->name.c_str());	//cargo bitmap de imagene
 		if (my_image == NULL)	//Chequeo que haya cargado bien el bitmap
 		{
 			cout << "El bitmap del path " << path << " no se ha cargado correctamente" << endl;

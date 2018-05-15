@@ -2,6 +2,7 @@
 #include <iostream>
 #include<cstdio>
 
+
 #include "Allegro.h"
 #include "calbacks.h"
 #include"parseDirectory.h"
@@ -43,7 +44,6 @@ void main(int argc, char** argv)
 		{
 			Allegro allegro;	//instancio clase allegro
 //			Compresor compresor;	//instancio clase compresor
-
 			
 
  			Draw dibu(compatiblefiles, parsecmdln.modo);	//creo objeto que dibuja en pantalla

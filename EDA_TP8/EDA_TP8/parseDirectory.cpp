@@ -44,7 +44,7 @@ bool parseDirectory::parseDir()
 						if (callback((((x.path()).extension())).string()))	//FALTA VER SI UN ARCHIVO ES UN DIRECTORIO
 						{
 							cout << "Archivo compatible encontrado = " << x.path().filename() << endl;
-							correctFiles.push_back(image((x.path()).generic_string(), (x.path().filename()).generic_string()));
+							correctFiles.push_back(image(((x.path()).parent_path()).generic_string(), (x.path().filename()).generic_string()));
 							vector_empty = false;
 							count_correct++;
 						}
