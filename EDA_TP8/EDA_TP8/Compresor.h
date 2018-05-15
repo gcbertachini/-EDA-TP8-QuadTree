@@ -2,28 +2,23 @@
 #include <iostream>
 #include "lodepng.h"
 
-using namespace std;
-enum class Compress_type {Compress_mode,Decompress_mode};
-
 class Compresor
 {
 public:
-	Compresor(uint threshold, Compress_type compress_mode);
+	Compresor(FILE * file_stream);
 	~Compresor();
-	void compress();
+	void compress(unsigned int w, unsigned int h, char out_lineal[], unsigned int threshold);
 	void decompress();
 	
 private:
-	void rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
-	static char* promedio(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y); //xq es static?????
-	uint give_me_the_score(uint  w, uint  h, char ** out, uint  init_x, uint  init_y);
-	uint32_t * give_me_dimensions(uint  w, uint  h, unsigned char ** out, const char *  filename); //Hay que tener el filename del archivo a trabajar
-																									//Hay que liberar el ptr dps de usarlo
-	uint threshold;
-	Compress_type compress_mode;
+
+	FILE * to_write_file;
+	void change_target_file(FILE * file_stream);
+
+	void rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold);
+	unsigned int puntaje(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
+	static void promedio(char colores_prom[4], unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
+
+
+	void array_to_matrix(char array[], unsigned int array_length, char **matrix, unsigned int w);
 };
-
-//	double a[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-//double(*b)[3] = reinterpret_cast<double(*)[3]>(a);
-
-typedef unsigned int uint;
