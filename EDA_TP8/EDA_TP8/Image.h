@@ -13,7 +13,7 @@ public:
 	image();
 	image(string path, string name);
 	~image();
-	void createBitmap(int modo);	//Depende de allegro
+	void createBitmap(modo_t modo);	//Depende de allegro
 	bool getSelected();
 	void toggleSelected();
 	string tell_me_your_name();

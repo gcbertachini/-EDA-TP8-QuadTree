@@ -19,16 +19,22 @@ image::~image()
 
 }
 
-void image::createBitmap(int modo)
+void image::createBitmap(modo_t modo)
 {
-	if(modo == COMPRESION)	//tengo o no que mostrar las imagenes
-		my_image = al_load_bitmap(path.c_str());	//cargo bitmap de imagene
-	//else		//AGREGAR QUE PASA SI ESTA EN DESCOMPRESION
-		//my_image = al_load_bitmap(NOSE);
-	if (my_image == NULL)	//Chequeo que haya cargado bien el bitmap
+	my_image = NULL;
+	
+	if (modo == COMPRESION)	//tengo o no que mostrar las imagenes
 	{
-		cout << "El bitmap del path " << path << " no se ha cargado correctamente" << endl;
+		const char * hola = path.c_str();
+		my_image = al_load_bitmap(hola);	//cargo bitmap de imagene
+		if (my_image == NULL)	//Chequeo que haya cargado bien el bitmap
+		{
+			cout << "El bitmap del path " << path << " no se ha cargado correctamente" << endl;
+		}
 	}
+	else		//si se esta en modo descompresion
+		my_image = NULL;
+	
 	
 
 }
