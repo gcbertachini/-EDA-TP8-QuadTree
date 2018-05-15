@@ -18,12 +18,23 @@ Allegro::Allegro()
 						{
 							if (al_install_keyboard())
 							{
-								if ((ev_queue = al_create_event_queue()))
+								if(al_init_font_addon())
 								{
-									if ((display = al_create_display(SCREEN_W, SCREEN_H)))
+									if (al_init_ttf_addon())
 									{
-										al_register_event_source(this->ev_queue, al_get_keyboard_event_source());
-										al_register_event_source(this->ev_queue, al_get_display_event_source(this->display));
+										if ((ev_queue = al_create_event_queue()))
+										{
+											if ((display = al_create_display(SCREEN_W, SCREEN_H)))
+											{
+												al_register_event_source(this->ev_queue, al_get_keyboard_event_source());
+												al_register_event_source(this->ev_queue, al_get_display_event_source(this->display));
+												font = al_load_ttf_font("font.ttf", 72, 0);
+												if (!font)
+												{
+													fprintf(stderr, "Could not load 'pirulen.ttf'.\n");
+												}
+											}
+										}
 									}
 								}
 							}
@@ -79,4 +90,9 @@ bool Allegro::load_music(char * music_file) //Devuelve 1 si todo salio bien
 ALLEGRO_EVENT_QUEUE * Allegro::getEventQueue()
 {
 	return ev_queue;
+}
+
+ALLEGRO_FONT* Allegro::getFont()
+{
+	return font;
 }

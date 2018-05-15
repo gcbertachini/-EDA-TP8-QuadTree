@@ -2,19 +2,23 @@
 
 #include <vector>
 #include <allegro5/allegro_primitives.h> 
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
 #include "Image.h"
+#include "Allegro.h"
 #include"Parser.h"
+#include "Parser.h"
 
 #define PAGE_SIZE 9
 
 class Draw
 {
 public:
-	Draw(vector<image>& images, int modo);
+	Draw(vector<image>& images, modo_t modo, Allegro& all);
 	~Draw();
 	void updateDisplay();
-	void drawPage(vector<image>& images);
+	void drawPage(vector<image>& images, modo_t mode);
 	void nextPage();
 	void prevPage();
 	int getPage();
@@ -32,4 +36,6 @@ private:
 	int vectSize;
 	bool exit;
 	bool quit;
+	ALLEGRO_FONT * font;
+	modo_t mode;
 };
