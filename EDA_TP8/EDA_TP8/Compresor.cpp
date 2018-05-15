@@ -344,23 +344,23 @@ void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * 
 	}
 	else if (c == 'N') {
 		current_pos++;
-		get_colours(image, current_pos, w, h, init_x, init_y);		//obtengo voy llenando matrix acorde a lo que aparece.
+		current_pos = get_colours(image, current_pos, w, h, init_x, init_y);		//Voy llenando matrix acorde a lo que aparece en cuanto a colores.
 	}
 	else if (c == ' ') {
 		current_pos++;
 		rec_decomp(image, w, h, current_pos, init_x, init_y);
 	}
 }
-void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
+char * Compresor::get_colours(char ** image,char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
 
 	char RGB_T[4];			//arreglo con cada color y transparencia a partir del cual llenare TODOS los pixeles del cuadrante.
 	int j = 0;
 	bool received = false;
 	unsigned int colour = 0;
 
-	for (int i = 0; i < 14; i++) {
+	for (int i = 0; i < 14; current_pos++, i++) {			//voy recorriendo el txt y voy cambiando mi posicion actual current_pos para luego devolverla.
 		char c = current_pos[i];
-		if ((c <= '9') && (c > '0')) {
+		if ((c <= '9') && (c > '0')) {		//voy recibiendo los numeros de cada color segun vengan.
 			received = true;
 			colour = colour * 10 + (unsigned int)c;
 		}
@@ -371,7 +371,7 @@ void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, uns
 			}
 		}
 		else {
-			RGB_T[3] = 0xff;
+			RGB_T[3] = 0xff;				//completo para la transparencia.
 			break;
 		}
 	}
@@ -385,6 +385,8 @@ void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, uns
 			image[i][j + 2] = RGB_T[2];
 			image[i][j + 3] = RGB_T[3];
 		}
+
+	return current_pos;		//devuelvo la posicion del txt en la que me encuentro ahora.
 }
 
 
