@@ -8,14 +8,15 @@
 #include"parseDirectory.h"
 #include"Parser.h"
 //#include "Compresor.h"
-
+//hola german
 #include"Draw.h"
 #include"eventHandler.h"
+#include "modeSelector.h"
 
 void main(int argc, char** argv)
 {
 	vector<image>compatiblefiles;
-	
+	Allegro allegro;	//instancio clase allegro
 	
 
 	Parser parsecmdln;
@@ -43,7 +44,7 @@ void main(int argc, char** argv)
 		}
 		if (run)	//Corre solo si el vector de imagenes compatibles no es vacio
 		{
-			Allegro allegro;	//instancio clase allegro
+			
 //			Compresor compresor;	//instancio clase compresor
 			
 
