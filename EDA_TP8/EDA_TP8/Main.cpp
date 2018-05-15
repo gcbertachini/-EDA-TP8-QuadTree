@@ -46,7 +46,7 @@ void main(int argc, char** argv)
 //			Compresor compresor;	//instancio clase compresor
 			
 
- 			Draw dibu(compatiblefiles, parsecmdln.modo);	//creo objeto que dibuja en pantalla
+ 			Draw dibu(compatiblefiles, parsecmdln.modo, allegro);	//creo objeto que dibuja en pantalla
 			Evnt evento = NOEVENT;
 			dibu.drawPage(compatiblefiles);
 			dibu.updateDisplay();

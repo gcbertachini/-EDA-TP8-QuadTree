@@ -18,7 +18,7 @@ public:
 	Draw(vector<image>& images, modo_t modo, Allegro& all);
 	~Draw();
 	void updateDisplay();
-	void drawPage(vector<image>& images, modo_t mode);
+	void drawPage(vector<image>& images);
 	void nextPage();
 	void prevPage();
 	int getPage();

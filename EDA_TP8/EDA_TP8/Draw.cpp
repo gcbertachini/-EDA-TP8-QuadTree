@@ -26,13 +26,13 @@ void Draw::updateDisplay()
 }
 
 
-void Draw::drawPage(vector<image>& images, modo_t modo)
+void Draw::drawPage(vector<image>& images)
 {
 	int i = (page * PAGE_SIZE);
 
-	for (int j = 0; j < 3; j++, i++)
+	for (int j = 0; j < 3, i<images.size(); j++, i++)
 	{
-		for (int z = 0; z < 3; z++, i++)
+		for (int z = 0; z < 3, i<images.size(); z++, i++)
 		{
 			if (modo == COMPRESION)
 			{
@@ -52,7 +52,7 @@ void Draw::drawPage(vector<image>& images, modo_t modo)
 					al_map_rgb(0, 0, 0), 3);
 			}
 			al_draw_text(font, al_map_rgb(255, 255, 255), 25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
-				ALLEGRO_ALIGN_CENTRE, images[i].tell_me_your_name().c_str());
+				ALLEGRO_ALIGN_RIGHT, images[i].tell_me_your_name().c_str());
 		}
 	}
 }
