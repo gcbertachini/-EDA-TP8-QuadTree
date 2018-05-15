@@ -15,6 +15,7 @@ void main(int argc, char** argv)
 	Parser parsecmdln;
 	bool run = false;
 	parsecmdln.Read(argc, argv);	//parsea los argumentos recibidos por linea de comando
+
 	if (!parsecmdln.getError())
 	{
 		parseDirectory parserDir(parsecmdln.path);
@@ -45,16 +46,6 @@ void main(int argc, char** argv)
 		}*/
 
 
-	if(UserInit==OK)  //No inicializar allgero si user mando fruta
-	AllegroInit;
 
-	get_pngs_from_dir(argv[1], &png_vector); //Se lo paso por referencia asi me carga todos los pngs encontrados
-
-
-	if(mode==compress)
-	compress(&selected_pngs_vector);
-	else
-	decompress(&selected_pngs_vector);
-	*/
 
 }
