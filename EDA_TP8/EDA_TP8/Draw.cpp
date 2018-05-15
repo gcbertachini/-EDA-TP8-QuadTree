@@ -30,14 +30,15 @@ void Draw::drawPage(vector<image>& images)
 {
 	int i = (page * PAGE_SIZE);
 
-	for (int j = 0; j < 3, i<images.size(); j++, i++)
+	for (int j = 0; j < 3 && i<images.size(); j++, i++)
 	{
-		for (int z = 0; z < 3, i<images.size(); z++, i++)
+		for (int z = 0; z < 3 && i<images.size(); z++, i++)
 		{
 			if (modo == COMPRESION)
 			{
 				al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
 					25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175), 300, 175, 0);
+				al_flip_display();
 			}
 			if (images[i].getSelected())
 			{
@@ -51,8 +52,9 @@ void Draw::drawPage(vector<image>& images)
 					25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
 					al_map_rgb(0, 0, 0), 3);
 			}
-			al_draw_text(font, al_map_rgb(255, 255, 255), 25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
-				ALLEGRO_ALIGN_RIGHT, images[i].tell_me_your_name().c_str());
+			al_draw_text(font, al_map_rgb(255, 255, 255), 175 +(z*320) , (75 / 4)*(j + 1)  + ((j + 1) * 175),
+				ALLEGRO_ALIGN_CENTRE, images[i].tell_me_your_name().c_str());
+			al_flip_display();
 		}
 	}
 }
