@@ -254,13 +254,17 @@ void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * 
 	}
 	else if (c == 'N') {
 		current_pos++;
-		get_colours(current_pos, init_x, init_y);
+		get_colours(image,current_pos, init_x, init_y);
 	}
 	else if (c == ' ') {
 		current_pos++;
 		rec_decomp(image, w, h, current_pos, init_x, init_y);
 	}
 }
-void Compresor::get_colours(char * current_pos, unsigned int init_x, unsigned int init_y) {
-	
+void Compresor::get_colours(char ** image, char * current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
+	for(int i = init_x; i  < ;i++)
+		for (int j = init_y; j < init_y + ; j = j + 4)
+		{
+
+		}
 }
