@@ -5,11 +5,11 @@ using namespace std;
 Evnt trasformAllegroEvents(int key);
 
 
-void dispatchEvent(Evnt ev, Draw& info)
+void dispatchEvent(Evnt ev, Draw& info,vector<image>& compatibleFiles)
 {
 	switch (ev)
 	{
-	case POS1: info.toggle(compatibleFiles, 0); break;
+	case POS1: info.toggle(compatibleFiles, 0); break; 
 	case POS2: info.toggle(compatibleFiles, 1); break;
 	case POS3: info.toggle(compatibleFiles, 2); break;
 	case POS4: info.toggle(compatibleFiles, 3); break;

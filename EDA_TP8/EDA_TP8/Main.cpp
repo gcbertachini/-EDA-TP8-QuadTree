@@ -39,25 +39,47 @@ void main(int argc, char** argv)
 		}
 		if (run)
 		{
-			Allegro allegro;
-			Compresor compresor;
-			Draw dibu(compatiblefiles, parsecmdln.modo);
+			Allegro allegro;	//instancio clase allegro
+			Compresor compresor;	//instancio clase compresor
+			Draw dibu(compatiblefiles, parsecmdln.modo);	//creo objeto que dibuja en pantalla
 			Evnt evento = NOEVENT;
-			while(!draw.quit)	//AGREGAR LOGICA DE QUIT EN EL DRAW
+
+			/* SELECCIONO IMAGENES EN ALLEGRO*/
+			while(!dibu.exit)	//AGREGAR LOGICA DE EXIT EN EL DRAW
 			{
 				evento = getEvent(allegro.getEventQueue());		//SE QUE ACA ME FALTA UN CONDICIONAL
-				dispatchEvent(evento, dibu);
-				//dibu.updateDisplay();	//HAY QUE PONER UN FLIP DISPLAY PERO NO ACA
+				if (evento != NOEVENT && evento != NONE)
+				{
+					dispatchEvent(evento, dibu,compatiblefiles);	//Actualizo la pantalla si me llega un evento
+					dibu.drawPage(compatiblefiles);
+					dibu.updateDisplay();
+					
+				}
 			}
+			if (!dibu.quit)	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
+			{
+				dibu.unquit()//cambio el estado de esa variable
+				/*COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
+					if (parsecmdln.modo == COMPRESION)
+						compresor.compress();
+					else if (parsecmdln.modo == DESCOMPRESION)
+						compresor.decompress();
 
-			if (parsecmdln.modo == COMPRESION)
-				compresor.compress();
-			else if (parsecmdln.modo == DESCOMPRESION)
-				compresor.decompress();
+				//CUANDO TERMINA ALLEGRO TIENE QUE DECIR QUE TERMINO
 
-			//CUANDO TERMINA ALLEGRO TIENE QUE DECIR QUE TERMINO
+				//dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado
 
-			dispatchEvent(finish, dibu); //Actualizaria la pantalla con un mensaje de terminado
+				/*ESTA SECCION TE DEJA ALLEGRO CORRIENDO HASTA QUE APRETES QUIT*/
+				/*dibu.drawPage(compatiblefiles);
+				dibu.updateDisplay();
+				while (!dibu.quit)
+				{
+					evento = getEvent(allegro.getEventQueue());
+					if(evento == QUIT)
+						dispatchEvent(QUIT, dibu, compatiblefiles);
+
+				}*/
+			}
 		}
 
 
