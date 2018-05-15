@@ -5,7 +5,7 @@
 using namespace std;
 
 enum { ERROR1 = -1, ERROR2 = -2, ERROR3 = -3 };
-enum {COMPRESION, DESCOMPRESION};
+typedef enum {COMPRESION, DESCOMPRESION} modo_t;
 const unsigned int NPARAMETERS = 0;
 const unsigned int NKEYS =3 ;
 const unsigned int NVALUES = 1;
@@ -26,7 +26,7 @@ public:
 	int Read(int argc, char *argv[]);
 
 	string path;
-	int modo;
+	modo_t modo;
 	int threshold;
 	bool getError();
 

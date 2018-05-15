@@ -11,7 +11,7 @@
 class Draw
 {
 public:
-	Draw(vector<image>& images, int modo);
+	Draw(vector<image>& images, modo_t modo);
 	~Draw();
 	void updateDisplay();
 	void drawPage(vector<image>& images);

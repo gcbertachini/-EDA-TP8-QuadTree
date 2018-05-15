@@ -1,7 +1,7 @@
 #include "Draw.h"
 
 
-Draw::Draw(vector<image>& images, int modo)
+Draw::Draw(vector<image>& images, modo_t modo)
 {
 	vectSize = images.size();
 	this->modo = modo;
@@ -9,6 +9,8 @@ Draw::Draw(vector<image>& images, int modo)
 	{
 		images[i].createBitmap(modo);	//inicializo los bitmaps de las imagenes.
 	}
+	exit = false;
+	quit = false;
 }
 
 
