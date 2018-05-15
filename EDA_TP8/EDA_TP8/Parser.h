@@ -7,7 +7,7 @@ using namespace std;
 enum { ERROR1 = -1, ERROR2 = -2, ERROR3 = -3 };
 typedef enum {COMPRESION, DESCOMPRESION} modo_t;
 const unsigned int NPARAMETERS = 0;
-const unsigned int NKEYS =3 ;
+const unsigned int NKEYS =2 ;
 const unsigned int NVALUES = 1;
 
 typedef struct
@@ -21,7 +21,7 @@ typedef struct
 class Parser
 {
 public:
-	Parser() { parseData.key[0] = (char*) "PATH"; parseData.key[1] = (char*) "MODO";  parseData.key[2] = (char*) "THRESHOLD"; error_do = false; };
+	Parser() { parseData.key[0] = (char*) "PATH";  parseData.key[1] = (char*) "THRESHOLD"; error_do = false; };
 	~Parser();
 	int Read(int argc, char *argv[]);
 

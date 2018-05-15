@@ -86,18 +86,8 @@ void Parser::Do(char * key, char * value)
 				case 0:
 					path = value;	//El chequeo de error del path se hace luego
 					break;
+
 				case 1:
-					if (atoi(value) == COMPRESION)
-						modo = COMPRESION;
-					else if (atoi(value) == DESCOMPRESION)
-						modo = DESCOMPRESION;
-					else
-					{
-						cout << "ERROR VALOR MODO, introduzca Compresion (0) Descopresion(1) " << endl;
-						error_do = true;
-					}
-					break;
-				case 2:
 					threshold = atoi(value);
 					break;
 				default:
