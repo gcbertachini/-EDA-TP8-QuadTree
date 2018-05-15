@@ -84,7 +84,7 @@ Evnt getEvent(ALLEGRO_EVENT_QUEUE * eq)
 {
 	ALLEGRO_EVENT ev;
 	Evnt retEv = NOEVENT;
-	static Timer * time = NULL;		// Ya se que no deberiamos usar 'static' pero necesito que este objeto no se destruya al terminar
+		// Ya se que no deberiamos usar 'static' pero necesito que este objeto no se destruya al terminar
 									// la funcion ya que es el encargado de regular el tiempo. Creo este objeto solo cuando se detecta 
 									// que se toco una tecla y lo destruyo cuando dejan de apretarla.
 	al_get_next_event(eq, &ev);
@@ -92,26 +92,11 @@ Evnt getEvent(ALLEGRO_EVENT_QUEUE * eq)
 
 	switch (ev.type)
 	{
-	case ALLEGRO_EVENT_KEY_DOWN:
-		if (time == NULL)
-		{
-			time = new Timer();
-			time->start();
-		}
-		break;
+
 	case ALLEGRO_EVENT_KEY_UP:
-		if (time != NULL)
-		{
-			time->stop();
-			if (time->getTime() >= 100)
-				retEv = trasformAllegroEvents(ev.keyboard.keycode);
-			delete time;
-			time = NULL;
-		}
-		break;
-	case ALLEGRO_EVENT_TIMER:
-		retEv = TIMER;
-		break;
+			retEv = trasformAllegroEvents(ev.keyboard.keycode);
+			break;
+
 	case ALLEGRO_EVENT_DISPLAY_CLOSE:
 		retEv = QUIT;
 		break;
