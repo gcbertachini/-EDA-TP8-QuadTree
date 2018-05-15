@@ -18,7 +18,7 @@ private:
 	void get_colours(char * input, TreeNode * tree);
 
 	void rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold);
-	void rec_decomp(char image[], unsigned int w, unsigned int h, char * current_pos, TreeNode * tree);
+	void rec_decomp(char ** image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y);
 
 	unsigned int puntaje(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
 	static void promedio(char colores_prom[4], unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);

@@ -83,7 +83,8 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, char ** out, unsigned i
 		fputs(str.c_str(), to_write_file);
 	}
 }
-void Compresor::rec_decomp(char image[],unsigned int w, unsigned int h,char * current_pos, TreeNode * tree) {
+/*
+void Compresor::rec_decomp(char image[],unsigned int w, unsigned int h,char * current_pos, unsigned int init_x, unsigned int init_y, TreeNode * tree) {
 
 	tree->this_h = h;
 	tree->this_w = w;
@@ -116,7 +117,8 @@ void Compresor::rec_decomp(char image[],unsigned int w, unsigned int h,char * cu
 		rec_decomp(image, w, h, current_pos++, tree);
 	}
 }
-
+*/
+/*
 void Compresor::get_colours(char * current_pos, TreeNode * tree) {
 	int j = 0;
 	bool received = false;
@@ -139,7 +141,7 @@ void Compresor::get_colours(char * current_pos, TreeNode * tree) {
 		}
 	}
 }
-
+*/
 void Compresor::promedio(char colores_prom[4], unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y) {
 
 	unsigned int sum_r = 0;
@@ -224,4 +226,41 @@ uint32_t * Compresor::give_me_dimensions(uint  w, uint  h, unsigned char ** out,
 
 
 		return my_dimension;//[0]=w,[1]=h
+}
+
+
+
+void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y) {
+
+	char c = *current_pos;
+	if (c == 'B') {
+
+		unsigned int new_w_izq = w / 2;
+		unsigned int new_w_der = w / 2;
+		unsigned int new_h_hi = h / 2;
+		unsigned int new_h_lo = h / 2;
+
+		if (w % 2)			//caso en que haya una cantidad impar de pixeles para el ancho
+			new_w_der++;
+		if (h % 2)			//caso en que haya una cantidad impar de pixeles para la altura
+			new_h_lo++;
+
+		current_pos++;
+
+		rec_decomp(image, new_w_izq, new_h_hi, current_pos, init_x, init_y);
+		rec_decomp(image, new_w_der, new_h_hi, current_pos, init_x, init_y + new_w_izq);
+		rec_decomp(image, new_w_izq, new_h_lo, current_pos, init_x + new_h_hi, init_y);
+		rec_decomp(image, new_w_der, new_h_lo, current_pos, init_x + new_h_hi, init_y + new_w_izq);
+	}
+	else if (c == 'N') {
+		current_pos++;
+		get_colours(current_pos, init_x, init_y);
+	}
+	else if (c == ' ') {
+		current_pos++;
+		rec_decomp(image, w, h, current_pos, init_x, init_y);
+	}
+}
+void Compresor::get_colours(char * current_pos, unsigned int init_x, unsigned int init_y) {
+	
 }
