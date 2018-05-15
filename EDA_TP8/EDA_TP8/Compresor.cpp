@@ -1,12 +1,11 @@
 #include "Compresor.h"
 #include <limits>
 #include <string>
+#include <fstream>
 
 
-
-Compresor::Compresor(FILE * file_stream)
+Compresor::Compresor()
 {
-	change_target_file(FILE * file_stream);
 }
 
 Compresor::~Compresor()
@@ -23,14 +22,26 @@ void Compresor::compress(unsigned int w, unsigned int h, char out_lineal[], unsi
 	for (int i = 0; i < h; ++i)
 		matrix[i] = new char[w];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
 
-	array_to_matrix(out_lineal, h*w,matrix, w);
-	rec_comp(w, h, matrix, 0, 0, threshold);
+	array_to_matrix(out_lineal, h*w,matrix, w);			//lleno la matriz acorde a lo que recibi.
+	rec_comp(w, h, matrix, 0, 0, threshold);			//llamo a la funcion recursiva qeu realizara la compresion
 
 	for (int i = 0; i < h; ++i)
 		delete[] matrix[i];
 	delete[] matrix;						//borro la matriz para que no haya memory leaks
 }
-void Compresor::decompress() {
+void Compresor::decompress(unsigned int w, unsigned int h, char * path) {
+
+	std::ifstream inFile;
+	inFile.open(path);	// aca poner el path del txt que necesito
+	std::string f_input = "";
+	while (inFile >> f_input) {
+		
+	}
+	inFile.close();
+
+	char * array = new char[h*w*16];
+	TreeNode * tree = new TreeNode();
+	rec_decomp(array, w, h, (char *) f_input.c_str(), tree);
 
 }
 
@@ -70,6 +81,62 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, char ** out, unsigned i
 
 		std::string str = std::string("N ") + std::to_string(prom[0]) + " " + std::to_string(prom[1]) + " " + std::to_string(prom[2]);
 		fputs(str.c_str(), to_write_file);
+	}
+}
+void Compresor::rec_decomp(char image[],unsigned int w, unsigned int h,char * current_pos, TreeNode * tree) {
+
+	tree->this_h = h;
+	tree->this_w = w;
+	char c = *current_pos;
+	if (c ==  'B') {
+
+		unsigned int new_w_izq = w / 2;
+		unsigned int new_w_der = w / 2;
+		unsigned int new_h_hi = h / 2;
+		unsigned int new_h_lo = h / 2;
+
+		if (w % 2)			//caso en que haya una cantidad impar de pixeles para el ancho
+			new_w_der++;
+		if (h % 2)			//caso en que haya una cantidad impar de pixeles para la altura
+			new_h_lo++;
+
+		tree->give_birth();
+		current_pos ++;
+
+		rec_decomp(image, new_w_izq, new_h_hi, current_pos, tree->left);
+		rec_decomp(image, new_w_der, new_h_hi, current_pos, tree->middle_left);
+		rec_decomp(image, new_w_izq, new_h_lo, current_pos, tree->middle_right);
+		rec_decomp(image, new_w_der, new_h_lo, current_pos, tree->right);
+	}
+	else if (c == 'N') {
+		current_pos ++;
+		get_colours(current_pos, tree);
+	}
+	else if (c == ' ') {
+		rec_decomp(image, w, h, current_pos++, tree);
+	}
+}
+
+void Compresor::get_colours(char * current_pos, TreeNode * tree) {
+	int j = 0;
+	bool received = false;
+	unsigned int colour = 0;
+	for (int i = 0; i < 14; i++) {
+		char c = current_pos[i];
+		if ((c <= '9') && (c > '0')) {
+			received = true;
+			colour = colour * 10 + (unsigned int)c;
+		}
+		else if (c == ' ') {
+			if (received) {
+				tree->RGB_T[j] = colour;
+				j++;
+			}
+		}
+		else {
+			tree->RGB_T[3] = 0xff;
+			break;
+		}
 	}
 }
 

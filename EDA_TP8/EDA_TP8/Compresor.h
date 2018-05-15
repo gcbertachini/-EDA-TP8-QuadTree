@@ -1,19 +1,24 @@
 #pragma once
 #include <iostream>
+#include "TreeNode.h"
 
 class Compresor
 {
 public:
-	Compresor(FILE * file_stream);
+	Compresor();
 	~Compresor();
 	void compress(unsigned int w, unsigned int h, char out_lineal[], unsigned int threshold);
-	void decompress();
+	void decompress(unsigned int w, unsigned int h);
 private:
 
 	FILE * to_write_file;
 	void change_target_file(FILE * file_stream);
 
+	void get_colours(char * input, TreeNode * tree);
+
 	void rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold);
+	void rec_decomp(char image[], unsigned int w, unsigned int h, char * current_pos, TreeNode * tree);
+
 	unsigned int puntaje(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
 	static void promedio(char colores_prom[4], unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y);
 
