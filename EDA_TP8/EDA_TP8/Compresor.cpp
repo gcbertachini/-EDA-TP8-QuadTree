@@ -162,6 +162,7 @@ void Compresor::promedio(char colores_prom[4], unsigned int w, unsigned int h, c
 	colores_prom[3] = 0xff;
 
 }
+
 unsigned int Compresor::puntaje(unsigned int w, unsigned int h, char **out, unsigned int init_x, unsigned int init_y) {
 
 	unsigned int max_R = 0;				
@@ -207,4 +208,20 @@ void Compresor::array_to_matrix(char array[], unsigned int array_length, char **
 		
 		matrix[fils][cols] = array[h];
 	}
+}
+
+
+uint32_t * Compresor::give_me_dimensions(uint  w, uint  h, unsigned char ** out, const char *  filename) {
+
+	uint32_t * desired_dimesion;
+	uint32_t * my_dimension = new uint32_t[2]; //Va a haber que hacer free al haber leido las dimensiones
+	lodepng_decode32_file(out, &w, &h, filename);
+
+	desired_dimesion = (uint32_t *)(out + 16);
+	my_dimension[0] = (*desired_dimesion); //se carga el width
+	desired_dimesion = (uint32_t *)(out + 20);
+	my_dimension[1] = (*desired_dimesion); //se carga el height
+
+
+		return my_dimension;//[0]=w,[1]=h
 }

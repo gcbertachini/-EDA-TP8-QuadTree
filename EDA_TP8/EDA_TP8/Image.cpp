@@ -32,3 +32,7 @@ void image::toggleSelected()
 	bool aux = !(this->selected);
 	this->selected = aux;
 }
+string image::tell_me_your_name() {
+
+	return this->name;
+}

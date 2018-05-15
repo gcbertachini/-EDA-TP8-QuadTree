@@ -45,11 +45,16 @@ void main(int argc, char** argv)
 		}*/
 
 
-		
+	if(UserInit==OK)  //No inicializar allgero si user mando fruta
+	AllegroInit;
+
+	get_pngs_from_dir(argv[1], &png_vector); //Se lo paso por referencia asi me carga todos los pngs encontrados
 
 
-	}
-	cout << "El programa ha finalizado, oprima enter para salir" << endl;
-	getchar();
+	if(mode==compress)
+	compress(&selected_pngs_vector);
+	else
+	decompress(&selected_pngs_vector);
+	*/
 
 }
