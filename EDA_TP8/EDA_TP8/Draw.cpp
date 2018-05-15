@@ -83,3 +83,24 @@ void Draw::toggleNone(vector<image>& images)
 		}
 	}
 }
+
+bool Draw::getexit()
+{
+	return this->exit;
+}
+
+bool Draw::getquit()
+{
+	return this->quit;
+}
+
+
+void Draw::setexit(bool what)
+{
+	this->exit = what;
+}
+
+void Draw::setquit(bool what)
+{
+	this->quit = what;
+}
