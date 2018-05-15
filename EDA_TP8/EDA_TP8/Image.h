@@ -4,6 +4,7 @@
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_image.h>
 
+#include"Parser.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ public:
 	bool getSelected();
 	void toggleSelected();
 	string tell_me_your_name();
+	ALLEGRO_BITMAP * getBitmap();
 private:
 	string path;
 	string name;

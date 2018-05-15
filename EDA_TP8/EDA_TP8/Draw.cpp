@@ -1,9 +1,14 @@
 #include "Draw.h"
 
 
-Draw::Draw(vector<image>& images)
+Draw::Draw(vector<image>& images, int modo)
 {
 	vectSize = images.size();
+	this->modo = modo;
+	for (int i = 0; i < vectSize; i++)
+	{
+		images[i].createBitmap(modo);	//inicializo los bitmaps de las imagenes.
+	}
 }
 
 
@@ -24,7 +29,7 @@ void Draw::drawPage(vector<image>& images)
 	{
 		al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
 			25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 300, 175, 0);
-		if (images.getSelected())
+		if (images[i].getSelected())
 		{
 			al_draw_rectangle(25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 25*(i+1)+(i*300)+((i+1)*300), (75/4)*(i+1)+(i*175)+((i+1)*175),
 				al_map_rgb(0, 255, 0), 3);
@@ -52,7 +57,7 @@ int Draw::getPage()
 
 void Draw::toggle(vector<image>& images, int n)
 {
-	images[n+(PAGE_SIZE*page)].toggleSelection();
+	images[n+(PAGE_SIZE*page)].toggleSelected();	//cambie de selection a selected
 }
 
 void Draw::toggleAll(vector<image>& images)
