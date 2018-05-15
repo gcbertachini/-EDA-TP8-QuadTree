@@ -22,7 +22,8 @@ void dispatchEvent(Evnt ev, Draw& info,vector<image>& compatibleFiles)
 	case PAGEDOWN: info.prevPage(); break;
 	case ALL: info.toggleAll(compatibleFiles); break;
 	case NONE: info.toggleNone(compatibleFiles); break;
-	case ENTER:
+	case ENTER: info.setexit(true); break;	//Hago que salga del loop
+	case QUIT: info.setquit(true); info.setexit(true); break; //Sale del programa
 	}
 
 }

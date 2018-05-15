@@ -37,7 +37,7 @@ void main(int argc, char** argv)
 		{
 			cout << "El vector de archivos compatibles es vacio" << endl;
 		}
-		if (run)
+		if (run)	//Corre solo si el vector de imagenes compatibles no es vacio
 		{
 			Allegro allegro;	//instancio clase allegro
 			Compresor compresor;	//instancio clase compresor
@@ -45,7 +45,7 @@ void main(int argc, char** argv)
 			Evnt evento = NOEVENT;
 
 			/* SELECCIONO IMAGENES EN ALLEGRO*/
-			while(!dibu.exit)	//AGREGAR LOGICA DE EXIT EN EL DRAW
+			while(!dibu.getexit())	//AGREGAR LOGICA DE EXIT EN EL DRAW
 			{
 				evento = getEvent(allegro.getEventQueue());		//SE QUE ACA ME FALTA UN CONDICIONAL
 				if (evento != NOEVENT && evento != NONE)
@@ -56,10 +56,10 @@ void main(int argc, char** argv)
 					
 				}
 			}
-			if (!dibu.quit)	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
+			if (!dibu.getquit())	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
 			{
-				dibu.unquit()//cambio el estado de esa variable
-				/*COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
+				dibu.setexit(false);//cambio el estado de esa variable
+				/* COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
 					if (parsecmdln.modo == COMPRESION)
 						compresor.compress();
 					else if (parsecmdln.modo == DESCOMPRESION)
@@ -70,19 +70,20 @@ void main(int argc, char** argv)
 				//dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado
 
 				/*ESTA SECCION TE DEJA ALLEGRO CORRIENDO HASTA QUE APRETES QUIT*/
-				/*dibu.drawPage(compatiblefiles);
+				dibu.drawPage(compatiblefiles);
 				dibu.updateDisplay();
-				while (!dibu.quit)
+				while (!dibu.getexit())
 				{
 					evento = getEvent(allegro.getEventQueue());
 					if(evento == QUIT)
 						dispatchEvent(QUIT, dibu, compatiblefiles);
 
-				}*/
+				}
 			}
 		}
 
-
+		cout << "El programa ha finalizado, oprima enter para salir" << endl;
+		getchar();
 
 
 }
