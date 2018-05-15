@@ -25,11 +25,17 @@ void image::createBitmap(modo_t modo)
 	
 	if (modo == COMPRESION)	//tengo o no que mostrar las imagenes
 	{
-		al_change_directory(this->path.c_str());
-		my_image = al_load_bitmap(this->name.c_str());	//cargo bitmap de imagene
-		if (my_image == NULL)	//Chequeo que haya cargado bien el bitmap
+		if (al_change_directory(this->path.c_str()))
 		{
-			cout << "El bitmap del path " << path << " no se ha cargado correctamente" << endl;
+			my_image = al_load_bitmap(this->name.c_str());	//cargo bitmap de imagene
+			if (my_image == NULL)	//Chequeo que haya cargado bien el bitmap
+			{
+				cout << "El bitmap del path " << path << " no se ha cargado correctamente" << endl;
+			}
+		}
+		else
+		{
+			cout << "ERROR AL CAMBIAR DE PATH, ALLEGRO" << endl;
 		}
 	}
 	else		//si se esta en modo descompresion
