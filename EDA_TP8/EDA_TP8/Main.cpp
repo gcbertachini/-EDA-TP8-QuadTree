@@ -15,6 +15,8 @@ void main(int argc, char** argv)
 {
 	vector<image>compatiblefiles;
 	
+	
+
 	Parser parsecmdln;
 	bool run = false;
 	parsecmdln.Read(argc, argv);	//parsea los argumentos recibidos por linea de comando
@@ -41,6 +43,9 @@ void main(int argc, char** argv)
 		{
 			Allegro allegro;	//instancio clase allegro
 //			Compresor compresor;	//instancio clase compresor
+
+			
+
  			Draw dibu(compatiblefiles, parsecmdln.modo);	//creo objeto que dibuja en pantalla
 			Evnt evento = NOEVENT;
 			dibu.drawPage(compatiblefiles);
