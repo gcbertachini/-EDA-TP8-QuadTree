@@ -81,9 +81,13 @@ void main(int argc, char** argv)
 				}
 			}
 		}
+		else
+		{		//Hago esto asi si el programa tiene un error el usuario puede seguir viendo la consola
+			cout << "El programa ha finalizado, oprima enter para salir" << endl;
+			getchar();
+		}
 
-		cout << "El programa ha finalizado, oprima enter para salir" << endl;
-		getchar();
+	
 
 
 }

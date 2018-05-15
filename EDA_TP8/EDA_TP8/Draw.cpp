@@ -102,5 +102,5 @@ void Draw::setexit(bool what)
 
 void Draw::setquit(bool what)
 {
-	this->quit = what;
+	this->quit = what; 
 }
