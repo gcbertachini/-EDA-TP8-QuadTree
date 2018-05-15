@@ -95,6 +95,7 @@ void Compresor::promedio(char colores_prom[4], unsigned int w, unsigned int h, c
 	colores_prom[3] = 0xff;
 
 }
+
 unsigned int Compresor::puntaje(unsigned int w, unsigned int h, char **out, unsigned int init_x, unsigned int init_y) {
 
 	unsigned int max_R = 0;				
