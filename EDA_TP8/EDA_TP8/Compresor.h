@@ -15,7 +15,7 @@ private:
 	FILE * to_write_file;		//archivo en el que se escribe para comprimir.
 	void change_target_file(FILE * file_stream);
 
-	void get_colours(char ** image, char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y);
+	char * get_colours(char ** image, char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y);
 
 	void rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold);
 	void rec_decomp(char ** image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y);
