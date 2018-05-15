@@ -29,6 +29,8 @@ public:
 	bool getquit();
 	void setexit(bool what);
 	void setquit(bool what);
+	void exitScreen();
+	
 
 private:
 	int modo;

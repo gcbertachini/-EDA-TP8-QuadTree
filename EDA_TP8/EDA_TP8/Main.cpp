@@ -7,6 +7,7 @@
 #include "calbacks.h"
 #include"parseDirectory.h"
 #include"Parser.h"
+#include "modeSelector.h"
 //#include "Compresor.h"
 
 #include"Draw.h"
@@ -14,18 +15,22 @@
 
 void main(int argc, char** argv)
 {
+	Allegro allegro;	//instancio clase allegro
 	vector<image>compatiblefiles;
+	modeSelector selector;
 	
-	
+	modo_t modo;
 
 	Parser parsecmdln;
 	bool run = false;
 	parsecmdln.Read(argc, argv);	//parsea los argumentos recibidos por linea de comando
+	modo = selector.modeSelect(allegro.getEventQueue(),allegro.getFont());
+	al_clear_to_color(al_map_rgb(0, 0, 0));
 
-	if (!parsecmdln.getError())
+	if (!parsecmdln.getError()&&!(selector.getQuit()))
 	{
 		parseDirectory parserDir(parsecmdln.path);
-		if (parsecmdln.modo == COMPRESION)
+		if (modo == COMPRESION)
 			parserDir.setCallback(isPNG);
 		else //if (parsecmdln.modo == DESCOMPRESION)
 			parserDir.setCallback(isCompressed);
@@ -42,12 +47,16 @@ void main(int argc, char** argv)
 		}
 		if (run)	//Corre solo si el vector de imagenes compatibles no es vacio
 		{
-			Allegro allegro;	//instancio clase allegro
+			
 //			Compresor compresor;	//instancio clase compresor
 			
 
- 			Draw dibu(compatiblefiles, parsecmdln.modo, allegro);	//creo objeto que dibuja en pantalla
+ 			Draw dibu(compatiblefiles, modo, allegro);	//creo objeto que dibuja en pantalla
 			Evnt evento = NOEVENT;
+
+			
+			
+
 			dibu.drawPage(compatiblefiles);
 			dibu.updateDisplay();
 			/* SELECCIONO IMAGENES EN ALLEGRO*/
@@ -64,7 +73,7 @@ void main(int argc, char** argv)
 			}
 			if (!dibu.getquit())	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
 			{
-				dibu.setexit(false);//cambio el estado de esa variable
+				//dibu.setexit(false);//cambio el estado de esa variable
 				/* COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
 					/*if (parsecmdln.modo == COMPRESION)
 						compresor.compress();
@@ -73,15 +82,15 @@ void main(int argc, char** argv)
 						*/
 						//CUANDO TERMINA ALLEGRO TIENE QUE DECIR QUE TERMINO
 
-						//dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado
+				dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado
 
 						/*ESTA SECCION TE DEJA ALLEGRO CORRIENDO HASTA QUE APRETES QUIT*/
-				dibu.drawPage(compatiblefiles);
+				//dibu.drawPage(compatiblefiles);
 				dibu.updateDisplay();
 				while (!dibu.getexit())
 				{
 					evento = getEvent(allegro.getEventQueue());
-					if (evento == QUIT)
+					if (evento == QUIT || evento == ENTER)
 						dispatchEvent(QUIT, dibu, compatiblefiles);
 
 				}

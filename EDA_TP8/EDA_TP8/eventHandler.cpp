@@ -24,6 +24,7 @@ void dispatchEvent(Evnt ev, Draw& info,vector<image>& compatibleFiles)
 	case NONE: info.toggleNone(compatibleFiles); break;
 	case ENTER: info.setexit(true); break;	//Hago que salga del loop
 	case QUIT: info.setquit(true); info.setexit(true); break; //Sale del programa
+	case FINISH: info.setexit(false); info.exitScreen(); break; //Me imprime el cartel con el exit screen
 	}
 
 }

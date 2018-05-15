@@ -126,3 +126,14 @@ void Draw::setquit(bool what)
 {
 	this->quit = what; 
 }
+
+void Draw::exitScreen()
+{
+	al_clear_to_color(al_map_rgb(0, 0, 0));
+	al_draw_filled_rectangle(SCREEN_W/4, SCREEN_H/4, 3*(SCREEN_W/4), 3 * (SCREEN_H / 4),
+		al_map_rgb(0, 0, 255));
+	al_draw_text(font, al_map_rgb(255, 255, 255),SCREEN_W/2 ,SCREEN_H/2 ,
+		ALLEGRO_ALIGN_CENTER, "EL PROGRAMA TERMINO");
+
+}
+
