@@ -38,8 +38,15 @@ void image::createBitmap(modo_t modo)
 			cout << "ERROR AL CAMBIAR DE PATH, ALLEGRO" << endl;
 		}
 	}
-	else		//si se esta en modo descompresion
-		my_image = NULL;
+	else
+	{		//si se esta en modo descompresion
+		my_image = al_load_bitmap("nyan_cat.png");	//cargo bitmap de imagene
+		if (my_image == NULL)	//Chequeo que haya cargado bien el bitmap
+		{
+			cout << "El bitmap del path " << path << " no se ha cargado correctamente" << endl;
+		}
+	}
+
 	
 	
 
