@@ -135,6 +135,7 @@
     <ClInclude Include="eventHandler.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="lodepng.h" />
+    <ClInclude Include="modeSelector.h" />
     <ClInclude Include="parseDirectory.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="resource.h" />
@@ -149,6 +150,7 @@
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="modeSelector.cpp" />
     <ClCompile Include="parseDirectory.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="TreeNode.cpp" />

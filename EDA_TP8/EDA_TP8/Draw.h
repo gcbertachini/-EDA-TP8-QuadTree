@@ -30,6 +30,7 @@ public:
 	void setexit(bool what);
 	void setquit(bool what);
 	void exitScreen();
+	
 
 private:
 	int modo;
