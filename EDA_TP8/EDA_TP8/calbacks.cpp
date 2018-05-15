@@ -3,7 +3,7 @@
 
 bool isPNG(string extension)
 {
-	string png = ".png";
+	string png = ".jpg";
 	return (extension == png);
 }
 
