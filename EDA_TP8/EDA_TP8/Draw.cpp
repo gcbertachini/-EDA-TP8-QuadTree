@@ -30,7 +30,7 @@ void Draw::drawPage(vector<image>& images)
 {
 	int i = (page * PAGE_SIZE);
 
-	for (int j = 0; j < 3 && i<images.size(); j++, i++)
+	for (int j = 0; j < 3 && i<images.size(); j++)
 	{
 		for (int z = 0; z < 3 && i<images.size(); z++, i++)
 		{
@@ -38,37 +38,42 @@ void Draw::drawPage(vector<image>& images)
 			{
 				al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
 					25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175), 300, 175, 0);
-				al_flip_display();
 			}
-			if (images[i].getSelected())
+			if (images[i].getSelected() && i<images.size())
 			{
 				al_draw_rectangle(25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175),
-					25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
+					25 * (z + 1) + ((z+1) * 300), (75 / 4)*(j + 1) + ((j+1) * 175),
 					al_map_rgb(0, 255, 0), 3);
 			}
 			else
 			{
 				al_draw_rectangle(25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175),
-					25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
+					25 * (z + 1) + ((z + 1) * 300), (75 / 4)*(j + 1) + ((j + 1) * 175),
 					al_map_rgb(0, 0, 0), 3);
 			}
-			al_draw_text(font, al_map_rgb(255, 255, 255), 175 +(z*320) , (75 / 4)*(j + 1)  + ((j + 1) * 175),
+			al_draw_text(font, al_map_rgb(255, 255, 255), 175 + (z * 325), 160 + (j * 194),
 				ALLEGRO_ALIGN_CENTRE, images[i].tell_me_your_name().c_str());
-			al_flip_display();
 		}
 	}
+	al_flip_display();
 }
 
 void Draw::nextPage()
 {
-	if(page < vectSize)
+	if (page < (vectSize/9))
+	{
 		page++;
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+	}
 }
 
 void Draw::prevPage()
 {
-	if(page > vectSize)
+	if (page > 0)
+	{
 		page--;
+		al_clear_to_color(al_map_rgb(0, 0, 0));
+	}
 }
 
 int Draw::getPage()
@@ -130,10 +135,11 @@ void Draw::setquit(bool what)
 void Draw::exitScreen()
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_draw_filled_rectangle(SCREEN_W/4, SCREEN_H/4, 3*(SCREEN_W/4), 3 * (SCREEN_H / 4),
+	al_draw_filled_rectangle(SCREEN_W/6, SCREEN_H/4, 5*(SCREEN_W/6), 3 * (SCREEN_H / 4),
 		al_map_rgb(0, 0, 255));
 	al_draw_text(font, al_map_rgb(255, 255, 255),SCREEN_W/2 ,SCREEN_H/2 ,
 		ALLEGRO_ALIGN_CENTER, "EL PROGRAMA TERMINO");
-
+	al_draw_text(font, al_map_rgb(255, 255, 255),SCREEN_W/2 ,360,
+		ALLEGRO_ALIGN_CENTER, "PRESIONE CUALQUIER TECLA PARA SALIR DEL PROGRAMA");
 }
 
