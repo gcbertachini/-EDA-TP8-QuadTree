@@ -9,10 +9,10 @@ public:
 	Compresor();
 	~Compresor();
 	void compress(unsigned int w, unsigned int h, char out_lineal[], unsigned int threshold);
-	void decompress(unsigned int w, unsigned int h);
+	void decompress(unsigned int w, unsigned int h, char * path);
 private:
 
-	FILE * to_write_file;
+	FILE * to_write_file;		//archivo en el que se escribe para comprimir.
 	void change_target_file(FILE * file_stream);
 
 	void get_colours(char ** image, char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y);

@@ -12,10 +12,26 @@ Compresor::~Compresor()
 {
 
 }
-
+//cambia el target de a donde se va escribir para comprimir.
 void Compresor::change_target_file(FILE * file_stream) {
 	to_write_file = file_stream;
 }
+
+/*
+********************************************************
+***********************compress*************************
+********************************************************
+*Comprime el archivo dado.
+
+	INPUT: 
+		1) w : cantidad de pixeles de ancho de la imagen a comprimir.
+		2) h : cantidad de pixeles de altura de la imagen a comprimir.
+		3) out_lineal : arreglo que devuelve el decode con el color y la transparencia de cada pixel de la imagen. 
+		4) threshold: trheshold de tolerancia con el que se va a comprimir segun consigna
+
+	OUTPUT: 
+		void
+*/
 void Compresor::compress(unsigned int w, unsigned int h, char out_lineal[], unsigned int threshold) {
 	
 	char** matrix = new char*[h * 4];
@@ -29,6 +45,21 @@ void Compresor::compress(unsigned int w, unsigned int h, char out_lineal[], unsi
 		delete[] matrix[i];
 	delete[] matrix;						//borro la matriz para que no haya memory leaks
 }
+
+/*
+********************************************************
+***********************decompress*************************
+********************************************************
+*Decomprime el archivo que esta comprimido en un txt.
+
+	INPUT:
+		1) w : cantidad de pixeles de ancho de la imagen a comprimir.
+		2) h : cantidad de pixeles de altura de la imagen a comprimir.
+		3) path : direccion del archivo txt donde esta comprimida la imagen
+
+	OUTPUT:
+		void
+*/
 void Compresor::decompress(unsigned int w, unsigned int h, char * path) {
 
 	std::ifstream inFile;
@@ -57,6 +88,24 @@ void Compresor::decompress(unsigned int w, unsigned int h, char * path) {
 	delete[] array;
 }
 
+
+/*
+********************************************************
+***********************rec_comp*************************
+********************************************************
+*Comprime al archivo recursivamente, va cuadrante por cuadrante realizando divisiones consecutivas.
+
+	INPUT:
+		1) w : cantidad de pixeles de ancho del cuadrante en donde estoy parado.
+		2) h : cantidad de pixeles de altura del cuadrante en donde estoy parado.
+		3) out : matriz que representa a los pixeles del archivo.
+		4) init_x : posicion inicial en x donde esta parado el cuadrado (top left corner).
+		5) init_y : posicion inicial en y donde esta parado el cuadrado (top left corner).
+		6) threshold: trheshold de tolerancia con el que se va a comprimir segun consigna
+
+	OUTPUT:
+		void
+*/
 void Compresor::rec_comp(unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold) {
 
 	unsigned int punt = puntaje(w, h, out, init_x, init_y);		//obtengo el puntaje del cuadrado en particular
@@ -154,6 +203,24 @@ void Compresor::get_colours(char * current_pos, TreeNode * tree) {
 	}
 }
 */
+
+/*
+********************************************************
+***********************promedio*************************
+********************************************************
+*Saca un promedio de cada color [RGB] de los pixeles del cuadrante en el que estoy parado
+
+	INPUT:
+		1) colores_prom : Arreglo donde estara situado el promedio de cada color [siguiendo el orden RGB y T= transparencia]
+		2) w : cantidad de pixeles de ancho del cuadrante en donde estoy parado.
+		2) h : cantidad de pixeles de altura del cuadrante en donde estoy parado.
+		3) out : matriz que representa a los pixeles del archivo.
+		4) init_x : posicion inicial en x donde esta parado el cuadrado (top left corner).
+		5) init_y : posicion inicial en y donde esta parado el cuadrado (top left corner).
+
+	OUTPUT:
+		void.
+*/
 void Compresor::promedio(char colores_prom[4], unsigned int w, unsigned int h, char ** out, unsigned int init_x, unsigned int init_y) {
 
 	unsigned int sum_r = 0;
@@ -209,6 +276,7 @@ unsigned int Compresor::puntaje(unsigned int w, unsigned int h, char **out, unsi
 
 }
 
+//hace el cambio de arreglo lineal a matriz .
 void Compresor::array_to_matrix(char array[], unsigned int array_length, char **matrix, unsigned int w) {
 	int fils = 0;		//filas
 	int cols = 0;		//columnas
@@ -225,6 +293,7 @@ void Compresor::array_to_matrix(char array[], unsigned int array_length, char **
 }
 
 
+//hace el cambio de matriz a arreglo lineal
 void Compresor::matrix_to_array(char array[], unsigned int array_length, char **matrix, unsigned int w, unsigned int h) {
 	for (int i = 0; i < h; i++) {
 		for (int j = 0; j < w*4; j++)
@@ -234,6 +303,23 @@ void Compresor::matrix_to_array(char array[], unsigned int array_length, char **
 	}
 }
 
+/*
+********************************************************
+***********************rec_decomp***********************
+********************************************************
+*Descomprime al archivo recursivamente, va cuadrante por cuadrante realizando divisiones consecutivas.
+
+INPUT:
+	1) image: matriz de pixeles con la informacion del color y transparencia de cada pixel.
+	2) w : cantidad de pixeles de ancho del cuadrante en donde estoy parado.
+	3) h : cantidad de pixeles de altura del cuadrante en donde estoy parado.
+	4) current_pos : letra del txt en la que me encuentro parado.
+	5) init_x : posicion inicial en x donde esta parado el cuadrado (top left corner).
+	6) init_y : posicion inicial en y donde esta parado el cuadrado (top left corner).
+
+OUTPUT:
+void
+*/
 void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y) {
 
 	char c = *current_pos;
@@ -258,7 +344,7 @@ void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * 
 	}
 	else if (c == 'N') {
 		current_pos++;
-		get_colours(image, current_pos, w, h, init_x, init_y);
+		get_colours(image, current_pos, w, h, init_x, init_y);		//obtengo voy llenando matrix acorde a lo que aparece.
 	}
 	else if (c == ' ') {
 		current_pos++;
@@ -267,7 +353,7 @@ void Compresor::rec_decomp(char **image, unsigned int w, unsigned int h, char * 
 }
 void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
 
-	char RGB_T[4];
+	char RGB_T[4];			//arreglo con cada color y transparencia a partir del cual llenare TODOS los pixeles del cuadrante.
 	int j = 0;
 	bool received = false;
 	unsigned int colour = 0;
@@ -280,7 +366,7 @@ void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, uns
 		}
 		else if (c == ' ') {
 			if (received) {
-				RGB_T[j] = colour;
+				RGB_T[j] = colour;			//lleno el arreglo segun el color del txt.
 				j++;
 			}
 		}
@@ -289,6 +375,8 @@ void Compresor::get_colours(char ** image,char *current_pos, unsigned int w, uns
 			break;
 		}
 	}
+
+	//lleno cada cuadrante.
 	for(int i = init_x; i  <  (init_x + h * 4); i++)
 		for (int j = init_y; j < (init_y + w * 4); j = j + 4)
 		{
