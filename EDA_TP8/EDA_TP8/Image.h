@@ -15,6 +15,7 @@ public:
 	void createBitmap(int modo);	//Depende de allegro
 	bool getSelected();
 	void toggleSelected();
+	string tell_me_your_name();
 private:
 	string path;
 	string name;

@@ -125,3 +125,19 @@ uint Compresor::give_me_the_score(uint  w, uint  h, char ** out, uint  init_x, u
 	delete my_highest;
 	return score;
 }
+
+
+uint32_t * Compresor::give_me_dimensions(uint  w, uint  h, unsigned char ** out, const char *  filename) {
+
+	uint32_t * desired_dimesion;
+	uint32_t * my_dimension = new uint32_t[2]; //Va a haber que hacer free al haber leido las dimensiones
+	lodepng_decode32_file(out, &w, &h, filename);
+
+	desired_dimesion = (uint32_t *)(out + 16);
+	my_dimension[0] = (*desired_dimesion); //se carga el width
+	desired_dimesion = (uint32_t *)(out + 20);
+	my_dimension[1] = (*desired_dimesion); //se carga el height
+
+
+		return my_dimension;//[0]=w,[1]=h
+}
