@@ -1,10 +1,11 @@
 #include "Draw.h"
 
 
-Draw::Draw(vector<image>& images, modo_t modo)
+Draw::Draw(vector<image>& images, modo_t modo, Allegro& all)
 {
 	vectSize = images.size();
 	this->modo = modo;
+	this->font = all.getFont();
 	for (int i = 0; i < vectSize; i++)
 	{
 		images[i].createBitmap(modo);	//inicializo los bitmaps de las imagenes.
@@ -25,16 +26,33 @@ void Draw::updateDisplay()
 }
 
 
-void Draw::drawPage(vector<image>& images)
+void Draw::drawPage(vector<image>& images, modo_t modo)
 {
-	for (int i = (page * PAGE_SIZE); (i < images.size()) && (i < ((page+1)*PAGE_SIZE)); i++)
+	int i = (page * PAGE_SIZE);
+
+	for (int j = 0; j < 3; j++, i++)
 	{
-		al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
-			25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 300, 175, 0);
-		if (images[i].getSelected())
+		for (int z = 0; z < 3; z++, i++)
 		{
-			al_draw_rectangle(25*(i+1)+(i*300), (75/4)*(i+1)+(i*175), 25*(i+1)+(i*300)+((i+1)*300), (75/4)*(i+1)+(i*175)+((i+1)*175),
-				al_map_rgb(0, 255, 0), 3);
+			if (modo == COMPRESION)
+			{
+				al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
+					25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175), 300, 175, 0);
+			}
+			if (images[i].getSelected())
+			{
+				al_draw_rectangle(25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175),
+					25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
+					al_map_rgb(0, 255, 0), 3);
+			}
+			else
+			{
+				al_draw_rectangle(25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175),
+					25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
+					al_map_rgb(0, 0, 0), 3);
+			}
+			al_draw_text(font, al_map_rgb(255, 255, 255), 25 * (z + 1) + (z * 300) + ((z + 1) * 300), (75 / 4)*(j + 1) + (j * 175) + ((j + 1) * 175),
+				ALLEGRO_ALIGN_CENTRE, images[i].tell_me_your_name().c_str());
 		}
 	}
 }
