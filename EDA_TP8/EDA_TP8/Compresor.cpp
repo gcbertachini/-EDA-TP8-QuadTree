@@ -28,12 +28,20 @@ void
 */
 void Compresor::compress(image& my_image, uint threshold) {
 
-	uint w, h;
-	unsigned char * out_lineal;
+	uint w=0, h=0;
+	uint control;
+	this->complete_path = my_image.tell_me_your_path() +'/'+ my_image.tell_me_your_name();
+	unsigned char * out_lineal=NULL;
+
 	create_file(my_image.tell_me_your_name().c_str());
-	lodepng_decode32_file(&out_lineal, &w, &h, my_image.tell_me_your_path().c_str() );
+	if(lodepng_decode32_file(&out_lineal, &w, &h, complete_path.c_str()))
+		cout<<"Error al cargar la imagen"<<endl;
+	for (int k = 0; k < w*h * 4; k++)
+		write_file<char>(out_lineal[k]);
+
 
 	write_file<uint>(w);//guardo el height y el width
+	write_file<char>(' ');
 	write_file<uint>(h);
 
 	char** matrix = new char*[h * 4];

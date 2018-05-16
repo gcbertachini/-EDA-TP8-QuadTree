@@ -23,6 +23,7 @@ private:
 
 	//Streams functions
 	string filename;		//archivo en el que se escribe para comprimir.
+	string complete_path;
 	void create_file(string name);
 	template <typename t1>void write_file(t1 a);
 

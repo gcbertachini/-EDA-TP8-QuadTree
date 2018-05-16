@@ -30,10 +30,10 @@ public:
 	void setexit(bool what);
 	void setquit(bool what);
 	void exitScreen();
+	int modo;
 	
 
 private:
-	int modo;
 	int page = 0;
 	int vectSize;
 	bool exit;

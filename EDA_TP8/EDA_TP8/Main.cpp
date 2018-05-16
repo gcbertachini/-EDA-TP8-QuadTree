@@ -71,14 +71,15 @@ int main(int argc, char** argv)
 			{
 				//dibu.setexit(false);//cambio el estado de esa variable
 				///COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
-					if (parsecmdln.modo == COMPRESION){ 
+					if (dibu.modo == COMPRESION){ 
 					for(int i=0;i<compatiblefiles.size();i++){		//cada archivo a comprimir
-						compresor.compress(compatiblefiles[i++],parsecmdln.get_threshold());
+						if(compatiblefiles[i].getSelected())
+						compresor.compress(compatiblefiles[i],parsecmdln.get_threshold());
 					}
 						
 
 					}
-					else if (parsecmdln.modo == DESCOMPRESION) {
+					else if (dibu.modo == DESCOMPRESION) {
 
 						for (int i = 0; i<compatiblefiles.size(); i++) {		//cada archivo a comprimir
 							compresor.decompress(compatiblefiles[i++]);
