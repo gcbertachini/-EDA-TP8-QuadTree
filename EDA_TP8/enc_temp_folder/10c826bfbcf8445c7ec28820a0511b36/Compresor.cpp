@@ -36,7 +36,7 @@ void Compresor::compress(image& my_image, uint threshold) {
 	create_file(my_image.tell_me_your_name().c_str());
 	if(lodepng_decode32_file(&out_lineal, &w, &h, complete_path.c_str()))
 		cout<<"Error al cargar la imagen"<<endl;
-	for (int k = 0; k < 1000; k++) //para ver la el contenido de la imagen, lo imprime en el txt
+	for (int k = 0; k < 100; k++)
 	{
 		write_file<unsigned int>(out_lineal[k]);
 		write_file<char>(' ');
@@ -58,13 +58,12 @@ void Compresor::compress(image& my_image, uint threshold) {
 
 	array_to_matrix(out_lineal, h*w, matrix, w);			//lleno la matriz acorde a lo que recibi.
 
-	//for (int k = 0; k < 1000; k++)  //para
-	//{
-	//	write_file<unsigned int>((*matrix)[k]);
-	//	write_file<char>(' ');
+	for (int k = 0; k < 1000; k++)
+	{
+		write_file<unsigned int>((*matrix)[k]);
+		write_file<char>(' ');
 
-	//}
-
+	}
 	myfile.open(this->filename, ios::out | ios::app | ios::binary);
 	myfile << endl;
 
