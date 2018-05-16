@@ -1,18 +1,18 @@
 #include <vector> 
 #include <iostream>
 #include<cstdio>
-
+#include "Compresor.h"
 
 #include "Allegro.h"
 #include "calbacks.h"
 #include"parseDirectory.h"
 #include"Parser.h"
 #include "modeSelector.h"
-#include "Compresor.h"
-#include"Draw.h"
-#include"eventHandler.h"
 
-void main(int argc, char** argv)
+#include "Draw.h"
+#include "eventHandler.h"
+
+int main(int argc, char** argv)
 {
 	Allegro allegro;	//instancio clase allegro
 	vector<image>compatiblefiles;

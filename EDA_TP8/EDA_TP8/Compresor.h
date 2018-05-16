@@ -42,5 +42,3 @@ private:
 
 	string new_name(string my_image);
 };
-
-typedef unsigned int uint;

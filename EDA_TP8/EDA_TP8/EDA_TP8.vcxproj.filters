@@ -89,10 +89,10 @@
     <ClCompile Include="modeSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="Compresor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Compresor.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
