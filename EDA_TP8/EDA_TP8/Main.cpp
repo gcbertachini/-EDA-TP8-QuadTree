@@ -8,8 +8,7 @@
 #include"parseDirectory.h"
 #include"Parser.h"
 #include "modeSelector.h"
-//#include "Compresor.h"
-
+#include "Compresor.h"
 #include"Draw.h"
 #include"eventHandler.h"
 
@@ -18,6 +17,7 @@ void main(int argc, char** argv)
 	Allegro allegro;	//instancio clase allegro
 	vector<image>compatiblefiles;
 	modeSelector selector;
+	Compresor compresor;
 	
 	modo_t modo;
 
@@ -70,12 +70,21 @@ void main(int argc, char** argv)
 			if (!dibu.getquit())	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
 			{
 				//dibu.setexit(false);//cambio el estado de esa variable
-				/* COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
-					/*if (parsecmdln.modo == COMPRESION)
-						compresor.compress();
-					else if (parsecmdln.modo == DESCOMPRESION)
-						compresor.decompress();
-						*/
+				///COMPRIMO / DESCOMPRIMO LAS IMAGENES SELECCIONADAS*/
+					if (parsecmdln.modo == COMPRESION){ 
+					for(int i=0;i<compatiblefiles.size();i++){		//cada archivo a comprimir
+						compresor.compress(compatiblefiles[i++],parsecmdln.get_threshold());
+					}
+						
+
+					}
+					else if (parsecmdln.modo == DESCOMPRESION) {
+
+						for (int i = 0; i<compatiblefiles.size(); i++) {		//cada archivo a comprimir
+							compresor.decompress(compatiblefiles[i++]);
+						}
+					}
+						
 						//CUANDO TERMINA ALLEGRO TIENE QUE DECIR QUE TERMINO
 
 				dispatchEvent(FINISH, dibu,compatiblefiles); //Actualizaria la pantalla con un mensaje de terminado

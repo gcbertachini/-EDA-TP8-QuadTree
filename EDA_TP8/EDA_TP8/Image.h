@@ -17,6 +17,7 @@ public:
 	bool getSelected();
 	void toggleSelected();
 	string tell_me_your_name();
+	string tell_me_your_path();
 	ALLEGRO_BITMAP * getBitmap();
 private:
 	string path;

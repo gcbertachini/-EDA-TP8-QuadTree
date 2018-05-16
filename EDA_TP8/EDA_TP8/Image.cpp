@@ -66,6 +66,10 @@ string image::tell_me_your_name() {
 
 	return this->name;
 }
+string image::tell_me_your_path() {
+
+	return this->path;
+}
 
 ALLEGRO_BITMAP * image::getBitmap()
 {

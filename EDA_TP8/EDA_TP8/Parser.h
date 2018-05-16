@@ -27,6 +27,7 @@ public:
 
 	string path;
 	modo_t modo;
+	unsigned int get_threshold();
 	int threshold;
 	bool getError();
 

@@ -104,3 +104,8 @@ bool Parser::getError()
 {
 	return this->error_do;
 }
+
+unsigned int Parser::get_threshold() {
+
+	return this->threshold;
+}
