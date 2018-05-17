@@ -118,8 +118,6 @@ void Compresor::decompress(image& my_image) {
 	h = my_dimension[1];
 
 
-
-
 	unsigned char** matrix = new unsigned char*[h];
 	for (uint i = 0; i < h; ++i)
 		matrix[i] = new unsigned char[w * 4];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
@@ -131,10 +129,10 @@ void Compresor::decompress(image& my_image) {
 	const unsigned char * new_array = array;
 
 	string my_new_name = new_name (my_image.tell_me_your_path());
-	//FALTA EL LLAMADO A ENCODE!!!
+	
 	lodepng_encode32_file(my_new_name.c_str(), new_array, w, h);
 
-	for (uint i = 0; i < h * 4; ++i)
+	for (uint i = 0; i < h; ++i)
 		delete[] matrix[i];
 	delete[] matrix;						//borro la matriz para que no haya memory leaks
 	delete[] array;
