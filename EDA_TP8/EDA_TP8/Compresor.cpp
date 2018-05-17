@@ -36,15 +36,15 @@ void Compresor::compress(image& my_image, uint threshold) {
 	create_file(my_image.tell_me_your_name().c_str());
 	if(lodepng_decode32_file(&out_lineal, &w, &h, complete_path.c_str()))
 		cout<<"Error al cargar la imagen"<<endl;
-	for (int k = 0; k < 1000; k++) //para ver la el contenido de la imagen, lo imprime en el txt
-	{
-		write_file<unsigned int>(out_lineal[k]);
-		write_file<char>(' ');
+	//for (int k = 0; k < w*h*4; k++) //para ver la el contenido de la imagen, lo imprime en el txt
+	//{
+	//	write_file<unsigned int>(out_lineal[k]);
+	//	write_file<char>(' ');
 
-	}
-	ofstream myfile;
-	myfile.open(this->filename, ios::out | ios::app | ios::binary);
-	myfile << endl;
+	//}
+	//ofstream myfile;
+	//myfile.open(this->filename, ios::out | ios::app | ios::binary);
+	//myfile << endl;
 
 
 
@@ -62,11 +62,11 @@ void Compresor::compress(image& my_image, uint threshold) {
 	//{
 	//	write_file<unsigned int>((*matrix)[k]);
 	//	write_file<char>(' ');
-
 	//}
 
-	myfile.open(this->filename, ios::out | ios::app | ios::binary);
-	myfile << endl;
+	//myfile.open(this->filename, ios::out | ios::app | ios::binary);
+	//myfile << endl;
+
 
 
 	rec_comp(w, h, matrix, 0, 0, threshold);			//llamo a la funcion recursiva qeu realizara la compresion
@@ -154,17 +154,22 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, unsigned char ** out, u
 
 	unsigned int punt = puntaje(w, h, out, init_x, init_y);		//obtengo el puntaje del cuadrado en particular
 
-	
 
-	if (punt >= threshold) {
+
+	if (punt >= threshold || (w<=1&&h<=1)) {
 		write_file<char>('B');
 
-		unsigned int new_w_izq = w / 2;
-		unsigned int new_w_der = w / 2;
+		unsigned int new_w_izq = w;
+		unsigned int new_w_der = w;
+		if (w > 1)
+		{
+			 new_w_izq = w / 2;
+			 new_w_der = w / 2;
+		}
 		unsigned int new_h_hi = h / 2;
 		unsigned int new_h_lo = h / 2;
 
-		if (w % 2)			//caso en que haya una cantidad impar de pixeles para el ancho
+		if (w % 2 )			//caso en que haya una cantidad impar de pixeles para el ancho
 			new_w_der++;
 		if (h % 2)			//caso en que haya una cantidad impar de pixeles para la altura
 			new_h_lo++;
