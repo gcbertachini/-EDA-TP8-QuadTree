@@ -230,7 +230,7 @@ void Compresor::promedio(unsigned char colores_prom[4], unsigned int w, unsigned
 	uint num_elements = 0;
 
 	for (uint i = init_y; i < init_y + h; i++)
-		for (uint j = init_x*4; j < init_x + w*4; j += 4) {
+		for (uint j = init_x*4; j < (init_x + w)*4; j += 4) {
 			sum_r += out[i][j];
 			sum_g += out[i][j + 1];
 			sum_b += out[i][j + 2];
@@ -254,7 +254,7 @@ uint Compresor::puntaje(unsigned int w, unsigned int h,unsigned  char **out, uns
 	unsigned char min_B = out[init_y][init_x * 4 + 2];
 
 	for (uint i = init_y; i < init_y + h; i++)
-		for (uint j = init_x*4; j < (init_x + w * 4); j += 4) {
+		for (uint j = init_x*4; j < (init_x + w)*4; j += 4) {
 
 			if (out[i][j] > max_R)
 				max_R = out[i][j];
