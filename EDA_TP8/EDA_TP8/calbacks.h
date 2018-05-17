@@ -1,7 +1,7 @@
 #pragma once
 #include<string>
 
-#define EXTENSION_COMPRIMIDO ".comp"
+#define EXTENSION_COMPRIMIDO ".eda"
 
 
 using namespace::std;

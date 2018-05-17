@@ -69,9 +69,10 @@ void Compresor::compress(image& my_image, uint threshold) {
 	}
 	*/
 	//guardo el height y el width en el txt
-	write_file<uint>(w);
+	write_file<uint32_t>(w);
 	write_file<char>(' ');
-	write_file<uint>(h);
+	write_file<uint32_t>(h);
+	write_file<char>(' ');
 
 	//myfile.open(this->filename, ios::out | ios::app | ios::binary);
 	//myfile << endl;
@@ -102,33 +103,23 @@ void
 void Compresor::decompress(image& my_image) {
 
 	unsigned char * out_lineal;
-	uint w,h;
+	uint w=0,h=0;
+	this->complete_path = my_image.tell_me_your_path() + '/' + my_image.tell_me_your_name();
 
-	ifstream inFile;
-	inFile.open(my_image.tell_me_your_path());	// aca poner el path del txt que necesito
-	std::string f_input = "";
-	while (inFile >> f_input) {
-
-	}
-	
-
-	uint32_t * my_dimension = new uint32_t[2]; //Va a haber que hacer free al haber leido las dimensiones
-	my_dimension = give_me_dimensions(f_input.c_str());
-	w = my_dimension[0];
-	h = my_dimension[1];
-
+	out_lineal=allocate_file(my_image,&w,&h); //Leo el arhcivo comprimido y lo guardo en memoria. También recupero w y h del archivo
 
 	unsigned char** matrix = new unsigned char*[h];
 	for (uint i = 0; i < h; ++i)
 		matrix[i] = new unsigned char[w * 4];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
 
-	rec_decomp(matrix, w, h, (char *)f_input.c_str(), 0, 0);
 
-	 unsigned char * array =  new unsigned char[h*w * 16];
+	rec_decomp(matrix, w, h, (char *)&out_lineal, 0, 0);
+
+	 unsigned char * array =  new unsigned char[h*w * 16];//Convierto mi matriz en un array asi la función la puede decodificar
 	matrix_to_array(array, h*w * 16, matrix, w, h);
 	const unsigned char * new_array = array;
 
-	string my_new_name = new_name (my_image.tell_me_your_path());
+	string my_new_name = new_name (my_image.tell_me_your_path(),my_image.tell_me_your_name()); //Le doy un nuevo nombre al archivo decodificado
 	
 	lodepng_encode32_file(my_new_name.c_str(), new_array, w, h);
 
@@ -136,7 +127,9 @@ void Compresor::decompress(image& my_image) {
 		delete[] matrix[i];
 	delete[] matrix;						//borro la matriz para que no haya memory leaks
 	delete[] array;
-	inFile.close();
+
+
+	delete[] (out_lineal-11);
 }
 
 
@@ -164,7 +157,6 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, unsigned char ** out, u
 
 	if ( !( (w <= 1) && (h <= 1) ) && (punt >= threshold) ) {			//verifico que no se llegue a la condicion de 1 pixel y que se supere el threshold para seguir dividiendo en cuadrantes.
 		write_file<char>('B');
-		write_file<char>(' ');
 
 		if (w == 1)
 			w = 2;		//para que cuando divida por dos me siga quedando uno en el valor, 
@@ -198,7 +190,7 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, unsigned char ** out, u
 		unsigned char prom[4];
 		promedio(prom, w, h, out, init_x, init_y);
 
-		std::string str = std::string("N ") + std::to_string(prom[0]) + " " + std::to_string(prom[1]) + " " + std::to_string(prom[2]) + " " +std::to_string(prom[3]);
+		std::string str = std::string("N") + std::to_string(prom[0])  + std::to_string(prom[1])  + std::to_string(prom[2]) + std::to_string(prom[3]);
 		write_file<string>(str);
 	}
 }
@@ -370,6 +362,8 @@ void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h
 		rec_decomp(image, w, h, current_pos+1, init_x, init_y);
 	}
 }
+
+
 char * Compresor::get_colours(unsigned char ** image, char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
 
 	char RGB_T[4];			//arreglo con cada color y transparencia a partir del cual llenare TODOS los pixeles del cuadrante.
@@ -409,25 +403,12 @@ char * Compresor::get_colours(unsigned char ** image, char *current_pos, unsigne
 }
 
 
-uint32_t * Compresor::give_me_dimensions(const char * txt) {
-	
-	uint32_t * desired_dimesion;
-	uint32_t * my_dimension = new uint32_t[2]; //Va a haber que hacer free al haber leido las dimensiones
-
-	desired_dimesion = (uint32_t *)(txt);
-	my_dimension[0] = (*desired_dimesion); //se carga el width
-	desired_dimesion = (uint32_t *)(txt + 1);
-	my_dimension[1] = (*desired_dimesion); //se carga el height
-
-	return my_dimension;//[0]=w,[1]=h
-}
-
 void Compresor::create_file(string name)
 {
 	string filename;
 	string extension = ".eda";
+	name.erase(name.end() - 4, name.end());
 	filename += name + extension;
-
 
 	this->filename = filename;
 	std::ofstream outfile(filename);
@@ -464,13 +445,42 @@ void Compresor::write_file(string tobewritten) {
 
 
 
-string Compresor::new_name(string my_image_name) {
+string Compresor::new_name(string my_image_path, string my_image_name) {
 
 	string ext = ".png";
 	string compre = "_decompress";
 	string new_name;
+	my_image_name.erase(my_image_name.end() - 4, my_image_name.end());
 
-	new_name += my_image_name + compre + ext;
+	new_name += my_image_path +'/'+ my_image_name + compre + ext;
 
 	return new_name;
+}
+
+unsigned char * Compresor::allocate_file(image& my_image,uint * w, uint * h) {
+
+	streampos size;
+	char * memblock = NULL;
+	uint32_t * mydimensions = NULL;
+
+	ifstream file(this->complete_path, ios::in | ios::binary | ios::ate);
+	if (file.is_open())
+	{
+
+		size = file.tellg();
+		memblock = new  char[size];
+		file.seekg(0, ios::beg);
+		file.read(memblock, size);
+		file.close();
+
+		cout << "the entire file content is in memory";
+
+		*w = atoi(memblock + 1);//guardo los valores de w y h
+		*h = atoi(memblock + 6);
+		
+
+	}
+	else cout << "Unable to open file";
+
+	return (unsigned char *) (memblock+11); //Devuelvo el puntero donde empieza la codificación, sin w y h
 }
