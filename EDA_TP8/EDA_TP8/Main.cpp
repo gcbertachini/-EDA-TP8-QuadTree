@@ -74,7 +74,7 @@ int main(int argc, char** argv)
 					if (dibu.modo == COMPRESION){ 
 					for(int i=0;i<compatiblefiles.size();i++){		//cada archivo a comprimir
 						if(compatiblefiles[i].getSelected())
-						compresor.compress(compatiblefiles[i],parsecmdln.get_threshold());
+							compresor.compress(compatiblefiles[i], parsecmdln.get_threshold());
 					}
 						
 
