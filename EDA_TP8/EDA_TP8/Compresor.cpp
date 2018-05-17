@@ -115,8 +115,8 @@ void Compresor::decompress(image& my_image) {
 
 	rec_decomp(matrix, w, h, (char *)&out_lineal, 0, 0);
 
-	 unsigned char * array =  new unsigned char[h*w * 16];//Convierto mi matriz en un array asi la función la puede decodificar
-	matrix_to_array(array, h*w * 16, matrix, w, h);
+	 unsigned char * array =  new unsigned char[h*w * 4];//Convierto mi matriz en un array asi la función la puede decodificar
+	matrix_to_array(array, h*w * 4, matrix, w, h);
 	const unsigned char * new_array = array;
 
 	string my_new_name = new_name (my_image.tell_me_your_path(),my_image.tell_me_your_name()); //Le doy un nuevo nombre al archivo decodificado
