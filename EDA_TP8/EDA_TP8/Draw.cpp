@@ -12,6 +12,7 @@ Draw::Draw(vector<image>& images, modo_t modo, Allegro& all)
 	}
 	exit = false;
 	quit = false;
+	this->background = all.give_me_my_backgroundbis();
 }
 
 
@@ -30,6 +31,8 @@ void Draw::drawPage(vector<image>& images)
 {
 	int i = (page * PAGE_SIZE);
 
+	al_draw_scaled_bitmap(this->background, 0, 0, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0, SCREEN_W, SCREEN_H, 0);
+
 	for (int j = 0; j < 3 && i<images.size(); j++)
 	{
 		for (int z = 0; z < 3 && i<images.size(); z++, i++)
@@ -38,6 +41,7 @@ void Draw::drawPage(vector<image>& images)
 			{
 				al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
 					25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175), 300, 175, 0);
+
 			}
 			if (images[i].getSelected() && i<images.size())
 			{
@@ -152,3 +156,12 @@ void Draw::exitScreen()
 		ALLEGRO_ALIGN_CENTER, "PRESIONE CUALQUIER TECLA PARA SALIR DEL PROGRAMA");
 }
 
+
+void Draw::processing( ALLEGRO_BITMAP * processing)
+{
+	al_clear_to_color(al_map_rgb(255, 255, 255));
+	al_draw_scaled_bitmap(processing,0,0,al_get_bitmap_width(processing), al_get_bitmap_height(processing),0,0, SCREEN_W, SCREEN_H, 0);
+	al_draw_text(font, al_map_rgb(0, 0, 0), SCREEN_W / 2, SCREEN_H / 2,
+		ALLEGRO_ALIGN_CENTER, "Procesando...");
+	updateDisplay();
+}

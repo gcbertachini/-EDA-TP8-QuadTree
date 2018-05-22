@@ -62,6 +62,10 @@ Allegro::Allegro()
 	}
 	else
 		fprintf(stderr, "ERROR: Failed to initialize allegro system\n");
+
+	this->processing = al_load_bitmap(PROCESSING);
+	this->background = al_load_bitmap(BACKGROUND);
+
 }
 
 
@@ -95,4 +99,13 @@ ALLEGRO_EVENT_QUEUE * Allegro::getEventQueue()
 ALLEGRO_FONT* Allegro::getFont()
 {
 	return font;
+}
+
+ALLEGRO_BITMAP * Allegro::give_me_my_background() {
+	return this->processing;
+}
+
+
+ALLEGRO_BITMAP * Allegro::give_me_my_backgroundbis() {
+	return this->background;
 }

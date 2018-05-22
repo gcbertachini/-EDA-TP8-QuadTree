@@ -31,6 +31,7 @@ public:
 	void setquit(bool what);
 	void exitScreen();
 	int modo;
+	void processing( ALLEGRO_BITMAP *);
 	
 
 private:
@@ -39,5 +40,6 @@ private:
 	bool exit;
 	bool quit;
 	ALLEGRO_FONT * font;
+	ALLEGRO_BITMAP * background;
 	modo_t mode;
 };

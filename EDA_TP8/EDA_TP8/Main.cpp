@@ -66,6 +66,8 @@ int main(int argc, char** argv)
 					dibu.updateDisplay();
 
 				}
+				if(evento== ENTER)
+					dibu.processing(allegro.give_me_my_background());
 			}
 			if (!dibu.getquit())	//ESTO LO HAGO SI NO SE SALIO DEL PRGRAMA ANTES
 			{

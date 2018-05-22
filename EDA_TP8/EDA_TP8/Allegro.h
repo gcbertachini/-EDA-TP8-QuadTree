@@ -11,6 +11,9 @@
 
 #define SCREEN_W 1000
 #define SCREEN_H 600
+#define PROCESSING "processing.png"
+#define BACKGROUND "background.jpg"
+
 
 class Allegro
 {
@@ -20,11 +23,16 @@ public:
 	ALLEGRO_EVENT_QUEUE * getEventQueue();
 	bool load_music(char * music_file);
 	ALLEGRO_FONT* getFont();
+	ALLEGRO_BITMAP * give_me_my_background();
+	ALLEGRO_BITMAP * give_me_my_backgroundbis();
+
 	
 
 private:
 	ALLEGRO_DISPLAY * display = NULL;
 	ALLEGRO_EVENT_QUEUE * ev_queue = NULL;
+	ALLEGRO_BITMAP * processing = NULL;
+	ALLEGRO_BITMAP * background = NULL;
 	ALLEGRO_SAMPLE * music = NULL;
 	ALLEGRO_FONT * font = NULL;
 };

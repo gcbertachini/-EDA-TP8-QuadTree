@@ -194,5 +194,8 @@
     <Image Include="imagenes\wwalk-F15.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="processing.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
