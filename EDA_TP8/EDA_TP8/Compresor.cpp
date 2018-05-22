@@ -103,17 +103,17 @@ void
 void Compresor::decompress(image& my_image) {
 
 	unsigned char * out_lineal;
-	uint w=0,h=0;
+	uint w = 0, h = 0;
 	this->complete_path = my_image.tell_me_your_path() + '/' + my_image.tell_me_your_name();
 
-	out_lineal=allocate_file(my_image,&w,&h); //Leo el arhcivo comprimido y lo guardo en memoria. También recupero w y h del archivo
-
+	out_lineal = allocate_file(my_image, &w, &h); //Leo el arhcivo comprimido y lo guardo en memoria. También recupero w y h del archivo
+	//cout << out_lineal[0] << endl;
 	unsigned char** matrix = new unsigned char*[h];
 	for (uint i = 0; i < h; ++i)
 		matrix[i] = new unsigned char[w * 4];			//creo una matriz de char para facilitar la lectura y escritura de la imagen al comprimir.
 
 
-	rec_decomp(matrix, w, h, (char *)&out_lineal, 0, 0);
+	rec_decomp(matrix, w, h, out_lineal, 0, 0);
 
 	 unsigned char * array =  new unsigned char[h*w * 4];//Convierto mi matriz en un array asi la función la puede decodificar
 	matrix_to_array(array, h*w * 4, matrix, w, h);
@@ -129,7 +129,7 @@ void Compresor::decompress(image& my_image) {
 	delete[] array;
 
 
-	delete[] (out_lineal-11);
+	delete[] (out_lineal-10);
 }
 
 
@@ -155,7 +155,7 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, unsigned char ** out, u
 	unsigned int punt = puntaje(w, h, out, init_x, init_y);		//obtengo el puntaje del cuadrado en particular
 
 
-	if ( !( (w <= 1) && (h <= 1) ) && (punt >= threshold) ) {			//verifico que no se llegue a la condicion de 1 pixel y que se supere el threshold para seguir dividiendo en cuadrantes.
+	if ( ( (w > 2) && (h > 2) ) && (punt >= threshold) ) {			//verifico que no se llegue a la condicion de 1 pixel y que se supere el threshold para seguir dividiendo en cuadrantes.
 		write_file<char>('B');
 
 		if (w == 1)
@@ -190,7 +190,7 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, unsigned char ** out, u
 		unsigned char prom[4];
 		promedio(prom, w, h, out, init_x, init_y);
 
-		std::string str = std::string("N") + std::to_string(prom[0])  + std::to_string(prom[1])  + std::to_string(prom[2]) + std::to_string(prom[3]);
+		std::string str = std::string("N")+' ' + std::to_string(prom[0])  + ' ' + std::to_string(prom[1])  +' ' +std::to_string(prom[2]) + ' ';
 		write_file<string>(str);
 	}
 }
@@ -246,7 +246,8 @@ uint Compresor::puntaje(unsigned int w, unsigned int h,unsigned  char **out, uns
 	unsigned char min_B = out[init_y][init_x * 4 + 2];
 
 	for (uint i = init_y; i < init_y + h; i++)
-		for (uint j = init_x*4; j < (init_x + w)*4; j += 4) {
+
+		for (uint j = init_x * 4; j < (init_x + w) * 4; j += 4) {
 
 			if (out[i][j] > max_R)
 				max_R = out[i][j];
@@ -255,7 +256,7 @@ uint Compresor::puntaje(unsigned int w, unsigned int h,unsigned  char **out, uns
 
 			if (out[i][j + 1] > max_G)
 				max_G = out[i][j + 1];
-			else if (out[i][j] < min_G)
+			else if (out[i][j+1] < min_G)
 				min_G = out[i][j + 1];
 
 			if (out[i][j + 2] > max_B)
@@ -264,6 +265,8 @@ uint Compresor::puntaje(unsigned int w, unsigned int h,unsigned  char **out, uns
 				min_B = out[i][j + 2];
 		}
 
+
+	
 	return (max_R - min_R + max_G - min_G + max_B - min_B);
 
 }
@@ -305,7 +308,7 @@ void Compresor::matrix_to_array(unsigned char array[], unsigned int array_length
 	for (uint i = 0; i < h; i++) {
 		for (uint j = 0; j < w * 4; j++)
 		{
-			array[i*w*4+ j] = matrix[i][h];
+			array[i*w*4+ j] = matrix[i][j];
 		}
 	}
 }
@@ -327,7 +330,9 @@ INPUT:
 OUTPUT:
 void
 */
-void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y) {
+void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h, unsigned char * current_pos, unsigned int init_x, unsigned int init_y) {
+
+	cout << *current_pos << endl;
 
 	char c = *current_pos;
 	if (c == 'B') {
@@ -356,7 +361,7 @@ void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h
 		rec_decomp(image, new_w_der, new_h_lo, current_pos+1, init_x + new_w_izq, init_y + +new_h_hi);
 	}
 	else if (c == 'N') {
-		current_pos = get_colours(image, current_pos+1, w, h, init_x, init_y);		//Voy llenando matrix acorde a lo que aparece en cuanto a colores.
+		current_pos = get_colours(image, current_pos+2, w, h, init_x, init_y);		//Muevo el puntero dos posiciones hasta donde esta guardado el valor del rojo, Voy llenando matrix acorde a lo que aparece en cuanto a colores.
 	}
 	else if (c == ' ') {
 		rec_decomp(image, w, h, current_pos+1, init_x, init_y);
@@ -364,33 +369,37 @@ void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h
 }
 
 
-char * Compresor::get_colours(unsigned char ** image, char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
+unsigned char * Compresor::get_colours(unsigned char ** image, unsigned char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y) {
 
-	char RGB_T[4];			//arreglo con cada color y transparencia a partir del cual llenare TODOS los pixeles del cuadrante.
+	unsigned char RGB_T[4];			//arreglo con cada color y transparencia a partir del cual llenare TODOS los pixeles del cuadrante.
 	int j = 0;
 	bool received = false;
+	bool finished_parsing = false;
 	unsigned int colour = 0;
+	uint i;					//aquí me quedaran guardados los chars analizados para este bloque
 
-	for (uint i = 0; i < 14; current_pos++, i++) {			//voy recorriendo el txt y voy cambiando mi posicion actual current_pos para luego devolverla.
-		char c = current_pos[i];
+	for ( i = 0; (i < 14) && (finished_parsing==false);  i++) {			//voy recorriendo el txt y voy cambiando mi posicion actual current_pos para luego devolverla.
+		unsigned char c = current_pos[i];
 		if ((c <= '9') && (c > '0')) {		//voy recibiendo los numeros de cada color segun vengan.
 			received = true;
-			colour = colour * 10 + (unsigned int)c;
+			colour = colour * 10 + (c-48);
 		}
 		else if (c == ' ') {
 			if (received) {
 				RGB_T[j] = colour;			//lleno el arreglo segun el color del txt.
+				colour = 0;					//Reinicio el color
 				j++;
 			}
 		}
-		else {
+		else if(j==3){
 			RGB_T[3] = 0xff;				//completo para la transparencia.
+			finished_parsing = true;
 			break;
 		}
 	}
-
+	current_pos += i; //Corro el puntero hacia el próximo conjunto
 	//lleno cada cuadrante.
-	for (uint i = init_y; i < init_y + h; i++)
+	for ( i = init_y; i < init_y + h; i++)
 		for (uint j = init_x * 4; j < (init_x + w * 4); j += 4)
 		{
 			image[i][j] = RGB_T[0];
@@ -466,7 +475,7 @@ unsigned char * Compresor::allocate_file(image& my_image,uint * w, uint * h) {
 	ifstream file(this->complete_path, ios::in | ios::binary | ios::ate);
 	if (file.is_open())
 	{
-
+		int i;
 		size = file.tellg();
 		memblock = new  char[size];
 		file.seekg(0, ios::beg);
@@ -476,11 +485,15 @@ unsigned char * Compresor::allocate_file(image& my_image,uint * w, uint * h) {
 		cout << "the entire file content is in memory";
 
 		*w = atoi(memblock + 1);//guardo los valores de w y h
-		*h = atoi(memblock + 6);
+		for ( i = 0; memblock[i] !=' '; i++)
+		{
+
+		}
+		*h = atoi(memblock + ++i);
 		
 
 	}
 	else cout << "Unable to open file";
 
-	return (unsigned char *) (memblock+11); //Devuelvo el puntero donde empieza la codificación, sin w y h
+	return (unsigned char *) (memblock+10); //Devuelvo el puntero donde empieza la codificación, sin w y h
 }

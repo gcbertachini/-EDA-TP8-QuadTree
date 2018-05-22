@@ -82,6 +82,7 @@ int main(int argc, char** argv)
 					else if (dibu.modo == DESCOMPRESION) {
 
 						for (int i = 0; i<compatiblefiles.size(); i++) {		//cada archivo a comprimir
+							if (compatiblefiles[i].getSelected())
 							compresor.decompress(compatiblefiles[i++]);
 						}
 					}

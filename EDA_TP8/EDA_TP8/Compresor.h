@@ -30,10 +30,10 @@ private:
 
 
 
-	char * get_colours(unsigned char ** image, char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y);
+	unsigned char * get_colours(unsigned char ** image, unsigned char *current_pos, unsigned int w, unsigned int h, unsigned int init_x, unsigned int init_y);
 
 	void rec_comp(unsigned int w, unsigned int h, unsigned char ** out, unsigned int init_x, unsigned int init_y, unsigned int threshold);
-	void rec_decomp(unsigned char ** image, unsigned int w, unsigned int h, char * current_pos, unsigned int init_x, unsigned int init_y);
+	void rec_decomp(unsigned char ** image, unsigned int w, unsigned int h, unsigned char * current_pos, unsigned int init_x, unsigned int init_y);
 
 	unsigned int puntaje(unsigned int w, unsigned int h, unsigned char ** out, unsigned int init_x, unsigned int init_y);
 	static void promedio(unsigned char colores_prom[4], unsigned int w, unsigned int h, unsigned char ** out, unsigned int init_x, unsigned int init_y);

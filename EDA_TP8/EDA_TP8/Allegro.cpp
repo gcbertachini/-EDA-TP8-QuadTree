@@ -28,7 +28,7 @@ Allegro::Allegro()
 											{
 												al_register_event_source(this->ev_queue, al_get_keyboard_event_source());
 												al_register_event_source(this->ev_queue, al_get_display_event_source(this->display));
-												font = al_load_ttf_font("font.ttf", 25, 0);
+												font = al_load_ttf_font("font.ttf", 20, 0);
 												if (!font)
 												{
 													fprintf(stderr, "Could not load 'pirulen.ttf'.\n");

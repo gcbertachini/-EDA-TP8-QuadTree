@@ -43,13 +43,13 @@ void Draw::drawPage(vector<image>& images)
 			{
 				al_draw_rectangle(25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175),
 					25 * (z + 1) + ((z+1) * 300), (75 / 4)*(j + 1) + ((j+1) * 175),
-					al_map_rgb(0, 255, 0), 3);
+					al_map_rgb(0, 255, 0), 2);
 			}
 			else
 			{
 				al_draw_rectangle(25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175),
 					25 * (z + 1) + ((z + 1) * 300), (75 / 4)*(j + 1) + ((j + 1) * 175),
-					al_map_rgb(0, 0, 0), 3);
+					al_map_rgb(0, 0, 0), 2);
 			}
 
 			if (modo == DESCOMPRESION)
@@ -57,7 +57,7 @@ void Draw::drawPage(vector<image>& images)
 				al_draw_scaled_bitmap(images[i].getBitmap(), 0, 0, al_get_bitmap_width(images[i].getBitmap()), al_get_bitmap_height(images[i].getBitmap()),
 					25 * (z + 1) + (z * 300), (75 / 4)*(j + 1) + (j * 175), 300, 175, 0);
 			}
-			al_draw_text(font, al_map_rgb(255, 255, 255), 175 + (z * 325), 160 + (j * 194),
+			al_draw_text(font, al_map_rgb(255, 255, 255), 175 + (z * 325), 191 + (j * 194),
 				ALLEGRO_ALIGN_CENTRE, images[i].tell_me_your_name().c_str());
 		}
 	}
@@ -66,7 +66,7 @@ void Draw::drawPage(vector<image>& images)
 
 void Draw::nextPage()
 {
-	if (page < (vectSize/9))
+	if (page < ((vectSize/9)-1))
 	{
 		page++;
 		al_clear_to_color(al_map_rgb(0, 0, 0));
@@ -90,7 +90,10 @@ int Draw::getPage()
 
 void Draw::toggle(vector<image>& images, int n)
 {
-	images[n+(PAGE_SIZE*page)].toggleSelected();	//cambie de selection a selected
+	if (images.size() > n)
+	{
+		images[n + (PAGE_SIZE*page)].toggleSelected();	//cambie de selection a selected
+	}
 }
 
 void Draw::toggleAll(vector<image>& images)
