@@ -98,10 +98,101 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="imagenes\multi.eda" />
+    <None Include="imagenes\wjump-F4.eda" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="EDA_TP8.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="imagenes\multi.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\multi_decompress.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\rojo.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\Scenario.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\stars.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F6.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F7.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F8.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F9.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wjump-F10.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F6.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F7.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F8.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F9.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F10.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F11.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F12.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F13.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="imagenes\wwalk-F15.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

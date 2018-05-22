@@ -185,6 +185,7 @@ void Compresor::rec_comp(unsigned int w, unsigned int h, unsigned char ** out, u
 		//-*
 		rec_comp(new_w_der, new_h_lo, out, init_x + new_w_izq, init_y + +new_h_hi, threshold);
 
+		return; //Vuelvo dps de haber realizado de manera recursiva mis 4 mosaicos
 	}
 	else {
 		unsigned char prom[4];
