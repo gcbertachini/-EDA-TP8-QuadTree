@@ -103,10 +103,10 @@ void
 void Compresor::decompress(image& my_image) {
 
 	unsigned char * out_lineal;
-	uint w = 0, h = 0;
+	uint w = 0, h = 0,desplazamiento=0;
 	this->complete_path = my_image.tell_me_your_path() + '/' + my_image.tell_me_your_name();
 
-	out_lineal = allocate_file(my_image, &w, &h); //Leo el arhcivo comprimido y lo guardo en memoria. También recupero w y h del archivo
+	out_lineal = allocate_file(my_image, &w, &h,&desplazamiento); //Leo el arhcivo comprimido y lo guardo en memoria. También recupero w y h del archivo
 	//cout << out_lineal[0] << endl;
 	unsigned char** matrix = new unsigned char*[h];
 	for (uint i = 0; i < h; ++i)
@@ -129,7 +129,7 @@ void Compresor::decompress(image& my_image) {
 	delete[] array;
 
 
-	delete[] (out_lineal-10);
+	delete[] (out_lineal-desplazamiento);
 }
 
 
@@ -309,6 +309,7 @@ void Compresor::matrix_to_array(unsigned char array[], unsigned int array_length
 	for (uint i = 0; i < h; i++) {
 		for (uint j = 0; j < w * 4; j++)
 		{
+
 			array[i*w*4+ j] = matrix[i][j];
 		}
 	}
@@ -331,7 +332,7 @@ INPUT:
 OUTPUT:
 void
 */
-void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h, unsigned char * current_pos, unsigned int init_x, unsigned int init_y) {
+unsigned char * Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h, unsigned char * current_pos, unsigned int init_x, unsigned int init_y) {
 
 	cout << *current_pos << endl;
 
@@ -350,23 +351,27 @@ void Compresor::rec_decomp(unsigned char **image, unsigned int w, unsigned int h
 
 		//*-
 		//--
-		rec_decomp(image, new_w_izq, new_h_hi, current_pos+1, init_x, init_y);
+		current_pos = rec_decomp(image, new_w_izq, new_h_hi, current_pos+1, init_x, init_y);
 		//-*
 		//--
-		rec_decomp(image, new_w_der, new_h_hi, current_pos+1, init_x + new_w_izq, init_y);
+		current_pos = rec_decomp(image, new_w_der, new_h_hi, current_pos+1, init_x + new_w_izq, init_y);
 		//--
 		//*-
-		rec_decomp(image, new_w_izq, new_h_lo, current_pos+1, init_x, init_y + new_h_hi);
+		current_pos = rec_decomp(image, new_w_izq, new_h_lo, current_pos+1, init_x, init_y + new_h_hi);
 		//--
 		//-*
-		rec_decomp(image, new_w_der, new_h_lo, current_pos+1, init_x + new_w_izq, init_y + +new_h_hi);
+		current_pos = rec_decomp(image, new_w_der, new_h_lo, current_pos+1, init_x + new_w_izq, init_y + +new_h_hi);
+
+		return current_pos; //Vuelvo después de desglozar el mosaico
 	}
 	else if (c == 'N') {
-		current_pos = get_colours(image, current_pos+2, w, h, init_x, init_y);		//Muevo el puntero dos posiciones hasta donde esta guardado el valor del rojo, Voy llenando matrix acorde a lo que aparece en cuanto a colores.
+		current_pos = get_colours(image, current_pos+2, w, h, init_x, init_y);		// Voy llenando matrix acorde a lo que aparece en cuanto a colores.
 	}
 	else if (c == ' ') {
 		rec_decomp(image, w, h, current_pos+1, init_x, init_y);
 	}
+
+	return current_pos;
 }
 
 
@@ -381,7 +386,7 @@ unsigned char * Compresor::get_colours(unsigned char ** image, unsigned char *cu
 
 	for ( i = 0; (i < 14) && (finished_parsing==false);  i++) {			//voy recorriendo el txt y voy cambiando mi posicion actual current_pos para luego devolverla.
 		unsigned char c = current_pos[i];
-		if ((c <= '9') && (c > '0')) {		//voy recibiendo los numeros de cada color segun vengan.
+		if ((c <= '9') && (c >= '0')) {		//voy recibiendo los numeros de cada color segun vengan.
 			received = true;
 			colour = colour * 10 + (c-48);
 		}
@@ -400,8 +405,9 @@ unsigned char * Compresor::get_colours(unsigned char ** image, unsigned char *cu
 	}
 	current_pos += i; //Corro el puntero hacia el próximo conjunto
 	//lleno cada cuadrante.
+
 	for ( i = init_y; i < init_y + h; i++)
-		for (uint j = init_x * 4; j < (init_x + w * 4); j += 4)
+		for (uint j = init_x * 4; j < ((init_x + w) * 4); j += 4)
 		{
 			image[i][j] = RGB_T[0];
 			image[i][j + 1] = RGB_T[1];
@@ -409,7 +415,7 @@ unsigned char * Compresor::get_colours(unsigned char ** image, unsigned char *cu
 			image[i][j + 3] = RGB_T[3];
 		}
 
-	return current_pos;		//devuelvo la posicion del txt en la que me encuentro ahora.
+	return current_pos-1;		//devuelvo la posicion del txt en la que me encuentro ahora.
 }
 
 
@@ -467,16 +473,16 @@ string Compresor::new_name(string my_image_path, string my_image_name) {
 	return new_name;
 }
 
-unsigned char * Compresor::allocate_file(image& my_image,uint * w, uint * h) {
+unsigned char * Compresor::allocate_file(image& my_image,uint * w, uint * h,uint * desplazamiento) {
 
 	streampos size;
 	char * memblock = NULL;
 	uint32_t * mydimensions = NULL;
+	int i;
 
 	ifstream file(this->complete_path, ios::in | ios::binary | ios::ate);
 	if (file.is_open())
 	{
-		int i;
 		size = file.tellg();
 		memblock = new  char[size];
 		file.seekg(0, ios::beg);
@@ -491,10 +497,16 @@ unsigned char * Compresor::allocate_file(image& my_image,uint * w, uint * h) {
 
 		}
 		*h = atoi(memblock + ++i);
-		
+		for (; memblock[i] != ' '; i++) //Busco el lugar anterior desde donde empieza la codificación
+		{
+
+		}
+		i++;
 
 	}
 	else cout << "Unable to open file";
 
-	return (unsigned char *) (memblock+10); //Devuelvo el puntero donde empieza la codificación, sin w y h
+	*desplazamiento = i; //Guardo lo que me moví respecto de donde aloque memoria
+
+	return (unsigned char *) (memblock+i); //Devuelvo el puntero donde empieza la codificación, sin w y h
 }
